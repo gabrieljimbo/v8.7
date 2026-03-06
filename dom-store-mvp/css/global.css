@@ -148,7 +148,8 @@ select {
 
 .btn-primary {
     background-color: var(--color-primary);
-    color: white;
+    color: #1A1A1A;
+    font-weight: var(--font-weight-bold);
 }
 
 .btn-primary:hover {

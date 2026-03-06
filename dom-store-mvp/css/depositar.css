@@ -278,3 +278,32 @@
     color: #1A1A1A;
     margin: 16px 0 24px;
 }
+
+@media (max-width: 768px) {
+    .deposito-card {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        margin: 0 0 var(--spacing-lg);
+    }
+
+    .deposito-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .main {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .qr-code-container {
+        padding: 12px;
+    }
+
+    .qr-code-img {
+        width: 200px !important;
+        height: 200px !important;
+    }
+
+    .pix-key-input {
+        font-size: 11px;
+    }
+}

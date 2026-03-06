@@ -385,7 +385,7 @@
     gap: var(--spacing-sm);
     padding: var(--spacing-lg) var(--spacing-2xl);
     background: var(--color-primary);
-    color: white;
+    color: #1A1A1A;
     border-radius: var(--radius-full);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-lg);

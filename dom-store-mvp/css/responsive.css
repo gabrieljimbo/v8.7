@@ -84,38 +84,44 @@ body.pwa-mode {
     .hero {
         padding: var(--spacing-xl) 0;
     }
-    
+
     .hero-content {
-        flex-direction: column;
+        grid-template-columns: 1fr;
         gap: var(--spacing-xl);
+        text-align: center;
     }
-    
+
+    .hero-image {
+        display: none;
+    }
+
     .hero-text {
         text-align: center;
     }
-    
+
     .hero-title {
-        font-size: 32px;
-        line-height: 1.2;
+        font-size: 28px;
+        line-height: 1.25;
     }
-    
+
     .hero-description {
-        font-size: 16px;
+        font-size: 15px;
     }
-    
+
     .hero-buttons {
         flex-direction: column;
         width: 100%;
     }
-    
+
     .hero-buttons .btn {
         width: 100%;
         justify-content: center;
     }
-    
+
     .hero-features {
         flex-direction: column;
         gap: var(--spacing-sm);
+        align-items: center;
     }
     
     /* Cards Mobile */

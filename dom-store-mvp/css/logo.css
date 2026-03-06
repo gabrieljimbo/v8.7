@@ -6,10 +6,11 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    flex-shrink: 0;
 }
 
 .logo img {
-    height: 32px;
+    height: 36px;
     width: auto;
     object-fit: contain;
 }
@@ -40,4 +41,15 @@
     display: block;
     margin: 0;
     padding: 0;
+}
+
+/* Ajuste mobile */
+@media (max-width: 768px) {
+    .logo img {
+        height: 30px !important;
+    }
+
+    .auth-logo img {
+        height: 54px !important;
+    }
 }

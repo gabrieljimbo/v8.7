@@ -502,16 +502,39 @@
     .not-bank-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
+        text-align: center;
     }
-    
+
+    .hero-features {
+        justify-content: center;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .not-bank-text {
+        order: 1;
+    }
+
+    .not-bank-image {
+        order: 0;
+    }
+
     .steps {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
     }
-    
+
     .phone-mockup {
-        width: 250px;
-        height: 500px;
+        width: 220px;
+        height: 420px;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-image {
+        display: none;
     }
 }
 
@@ -612,5 +635,79 @@
     .footer-links {
         flex-wrap: wrap;
         justify-content: center;
+    }
+}
+
+/* ========== HERO MOBILE CARD ========== */
+.hero-mobile-card {
+    display: none; /* Oculto por padrão, visível só no mobile */
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.hmc-label {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.hmc-model {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+}
+
+.hmc-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.hmc-bar {
+    flex: 1;
+    height: 10px;
+    background: var(--color-bg-tertiary);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.hmc-bar-fill {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 99px;
+    transition: width 1s ease;
+}
+
+.hmc-percent {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-primary);
+    min-width: 36px;
+}
+
+.hmc-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+}
+
+.hmc-values strong {
+    color: var(--color-text-primary);
+}
+
+@media (max-width: 640px) {
+    .hero-mobile-card {
+        display: block;
     }
 }
