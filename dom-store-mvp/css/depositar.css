@@ -1,0 +1,280 @@
+/**
+ * ZENTRA - Depositar CSS
+ */
+
+.header {
+    background: white;
+    border-bottom: 1px solid var(--color-bg-tertiary);
+    padding: var(--spacing-lg) 0;
+}
+
+.header .container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    transition: color var(--transition-base);
+}
+
+.back-btn:hover {
+    color: var(--color-primary);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.main {
+    padding: var(--spacing-2xl) 0;
+    background: var(--color-bg-secondary);
+    min-height: calc(100vh - 80px);
+}
+
+.deposito-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    max-width: 500px;
+    margin: 0 auto var(--spacing-xl);
+}
+
+.deposito-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deposito-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.deposito-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+
+.valor-faltante-box {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.valor-faltante-box span {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.valor-faltante-box strong {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary);
+}
+
+.valor-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: var(--spacing-lg);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+}
+
+.valor-input {
+    width: 100%;
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-lg) 50px;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    border: 2px solid var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition-base);
+}
+
+.valor-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.valores-rapidos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+    margin: var(--spacing-xl) 0;
+}
+
+.btn-valor {
+    padding: var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.btn-valor:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.btn-valor.badge-valor::after {
+    content: 'usado';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-weight: var(--font-weight-semibold);
+}
+
+.termos-aceitos {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.qr-code {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto var(--spacing-xl);
+    border: 2px solid var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+}
+
+.valor-pix {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+    .valores-rapidos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* QR Code PIX */
+.qr-code-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.qr-code-img {
+    display: block;
+    border-radius: 8px;
+}
+
+/* Chave PIX */
+.pix-key-container {
+    margin: 24px 0;
+}
+
+.pix-key-label {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.pix-key-box {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: #F5F5F5;
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #E0E0E0;
+}
+
+.pix-key-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    color: #1A1A1A;
+    font-family: 'Courier New', monospace;
+    outline: none;
+}
+
+.btn-copy-key {
+    background: #FEDB19;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-copy-key:hover {
+    background: #E5C300;
+    transform: scale(1.05);
+}
+
+.btn-copy-key svg {
+    stroke: #1A1A1A;
+}
+
+.copy-feedback {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #00BFA5;
+    font-weight: 600;
+}
+
+.copy-feedback.hidden {
+    display: none;
+}
+
+/* Valor PIX */
+.valor-pix {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1A1A1A;
+    margin: 16px 0 24px;
+}

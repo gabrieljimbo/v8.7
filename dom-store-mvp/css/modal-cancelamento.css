@@ -1,0 +1,205 @@
+/**
+ * DOM Store - Modal de Cancelamento
+ */
+
+.modal-cancelamento {
+    max-width: 600px;
+}
+
+.modal-cancelamento .modal-header {
+    background: #FFF3E0;
+    border-bottom: 2px solid #FFA000;
+    padding: var(--spacing-xl);
+}
+
+.modal-cancelamento .modal-title-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.modal-cancelamento .modal-title-icon {
+    color: #F57C00;
+    font-size: 28px;
+}
+
+.modal-cancelamento .modal-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: #F57C00;
+    margin: 0;
+}
+
+.modal-cancelamento .modal-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+.modal-cancelamento .modal-body {
+    padding: var(--spacing-xl);
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.termos-cancelamento {
+    background: #FFFBF0;
+    border: 2px solid #FEDB19;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+}
+
+.termos-cancelamento-title {
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-primary);
+}
+
+.termos-cancelamento-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.termos-cancelamento-list li {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+}
+
+.termos-cancelamento-list li::before {
+    content: '•';
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: -2px;
+}
+
+.destaque-cancelamento {
+    background: #FFEBEE;
+    border-left: 4px solid #F44336;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-lg) 0;
+    font-size: var(--font-size-sm);
+}
+
+.destaque-cancelamento strong {
+    color: #D32F2F;
+}
+
+.calculo-cancelamento {
+    background: white;
+    border: 2px solid var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-xl) 0;
+}
+
+.calculo-cancelamento-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.calculo-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-bg-tertiary);
+}
+
+.calculo-linha:last-child {
+    border-bottom: none;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-lg);
+    border-top: 2px solid var(--color-text-primary);
+}
+
+.calculo-label {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+}
+
+.calculo-valor {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.calculo-valor.negativo {
+    color: #F44336;
+}
+
+.calculo-valor.positivo {
+    color: #4CAF50;
+    font-size: var(--font-size-2xl);
+}
+
+.prazo-reembolso {
+    background: #FFF9E6;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.prazo-reembolso-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.prazo-reembolso-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.prazo-reembolso-text strong {
+    color: #F57C00;
+}
+
+.checkbox-termos-cancelamento {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.modal-cancelamento .modal-footer {
+    padding: var(--spacing-xl);
+    border-top: 2px solid var(--color-bg-tertiary);
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.modal-cancelamento .modal-footer .btn {
+    flex: 1;
+    padding: var(--spacing-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 768px) {
+    .modal-cancelamento {
+        max-width: 100%;
+        margin: var(--spacing-md);
+    }
+    
+    .calculo-linha {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .modal-cancelamento .modal-footer {
+        flex-direction: column;
+    }
+}

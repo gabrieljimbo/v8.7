@@ -1,0 +1,43 @@
+/**
+ * DOM Store - Logo Component
+ */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Logo maior para páginas específicas */
+.logo-large img {
+    height: 50px;
+}
+
+/* Logo extra grande para hero/auth */
+.logo-hero img {
+    height: 70px;
+}
+
+/* Logo pequeno para footer */
+.logo-small img {
+    height: 24px;
+}
+
+/* Versão inline sem gap */
+.logo-inline {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Remove qualquer padding/margin extra */
+.logo img, .auth-logo img {
+    display: block;
+    margin: 0;
+    padding: 0;
+}

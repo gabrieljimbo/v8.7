@@ -1,0 +1,371 @@
+/**
+ * DOM Store - Responsividade e Mobile-First
+ */
+
+/* ========== VARIÁVEIS MOBILE ========== */
+:root {
+    --mobile-padding: 16px;
+    --mobile-spacing: 12px;
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+/* ========== PWA MODE ========== */
+body.pwa-mode {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+/* ========== MOBILE TOUCH ========== */
+@media (hover: none) and (pointer: coarse) {
+    /* Aumenta área de toque em botões */
+    .btn, button, a {
+        min-height: 44px;
+        padding: 12px 20px;
+    }
+    
+    /* Remove hover states em mobile */
+    .btn:hover,
+    button:hover {
+        transform: none;
+    }
+    
+    /* Feedback tátil */
+    .btn:active,
+    button:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+}
+
+/* ========== MOBILE ESPECÍFICO ========== */
+@media (max-width: 768px) {
+    /* Containers */
+    .container {
+        padding: 0 var(--mobile-padding);
+        max-width: 100%;
+    }
+    
+    /* Headers */
+    .header {
+        padding: var(--mobile-spacing) var(--mobile-padding);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .header .container {
+        padding: 0;
+    }
+    
+    /* Logo mobile */
+    .logo img {
+        height: 28px !important;
+    }
+    
+    /* Navegação mobile */
+    .nav {
+        gap: 8px;
+    }
+    
+    .nav-link {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+    
+    .btn {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    /* Hero Section Mobile */
+    .hero {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .hero-content {
+        flex-direction: column;
+        gap: var(--spacing-xl);
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+    
+    .hero-description {
+        font-size: 16px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .hero-features {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    /* Cards Mobile */
+    .card {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+    }
+    
+    /* Dashboard Mobile */
+    .dashboard-header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .progress-section {
+        padding: var(--spacing-lg);
+    }
+    
+    .progress-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .progress-info {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+    
+    .info-item {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Marcos de progresso mobile */
+    .marcos {
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: var(--spacing-sm);
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .marco {
+        flex: 0 0 auto;
+        width: 60px;
+    }
+    
+    /* Histórico mobile */
+    .historico-item {
+        padding: var(--spacing-md);
+    }
+    
+    /* Modais Mobile */
+    .modal {
+        margin: 0;
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        padding: var(--mobile-padding);
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
+    
+    /* Modal de cancelamento mobile */
+    .modal-cancelamento {
+        max-width: 100%;
+        height: 100vh;
+    }
+    
+    .modal-cancelamento .modal-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .modal-cancelamento .modal-footer {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Escolher iPhone Mobile */
+    .iphones-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .iphone-card {
+        padding: var(--spacing-lg);
+    }
+    
+    /* Depositar Mobile */
+    .depositar-container {
+        padding: var(--mobile-padding);
+    }
+    
+    .valores-rapidos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    .valor-rapido {
+        padding: var(--spacing-md);
+        font-size: 18px;
+    }
+    
+    /* Footer Mobile */
+    .footer {
+        padding: var(--spacing-xl) var(--mobile-padding);
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    /* Botão flutuante mobile */
+    .btn-float {
+        bottom: calc(var(--mobile-padding) + var(--safe-area-inset-bottom));
+        right: var(--mobile-padding);
+        left: var(--mobile-padding);
+        width: calc(100% - 2 * var(--mobile-padding));
+        border-radius: 50px;
+    }
+    
+    /* Forms Mobile */
+    .input,
+    .select,
+    textarea {
+        font-size: 16px; /* Evita zoom no iOS */
+        padding: 14px 16px;
+    }
+    
+    /* Auth pages mobile */
+    .auth-container {
+        padding: var(--mobile-padding);
+        min-height: 100vh;
+    }
+    
+    .auth-card {
+        padding: var(--spacing-xl) var(--mobile-padding);
+    }
+    
+    .auth-logo img {
+        height: 60px !important;
+    }
+}
+
+/* ========== TABLET ========== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .iphones-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ========== LANDSCAPE MOBILE ========== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .modal {
+        max-height: 100vh;
+    }
+    
+    .progress-circle {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* ========== SCROLL SUAVE ========== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ========== NOTCH E SAFE AREAS (iPhone X+) ========== */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+    
+    .header {
+        padding-top: max(12px, env(safe-area-inset-top));
+    }
+    
+    .footer {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}
+
+/* ========== PERFORMANCE ========== */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+/* Smooth scrolling em mobile */
+.modal-body,
+.historico-lista {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ========== ACESSIBILIDADE ========== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========== DARK MODE (futuro) ========== */
+@media (prefers-color-scheme: dark) {
+    /* Implementar futuramente */
+}

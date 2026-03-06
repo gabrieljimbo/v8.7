@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Conquiste seu iPhone dos sonhos com pagamentos flexíveis via Pix - DOM STORE FACILITA">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FEDB19">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-novo.png">
+    <link rel="apple-touch-icon" href="./assets/logo-dom-novo.png">
+
+    <title>Depositar - DOM STORE FACILITA</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/depositar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="dashboard.html" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M12 16L6 10L12 4" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Voltar
+            </a>
+            <div class="logo"><img src="assets/logo-dom-novo.png" alt="DOM STORE FACILITA" style="height: 32px;"></div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="deposito-card">
+                <div class="deposito-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <circle cx="24" cy="24" r="20" fill="#E0F7F4"/>
+                        <path d="M24 14V30M24 30L18 24M24 30L30 24" stroke="#00BFA5" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                
+                <h1 class="deposito-title">Depositar via Pix</h1>
+                <p class="deposito-subtitle">Depósitos a partir de R$ 5</p>
+
+                <div class="valor-faltante-box">
+                    <span>Falta para a meta</span>
+                    <strong id="falta-meta">R$ 4.499,00</strong>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Valor do depósito</label>
+                    <div class="valor-input-container">
+                        <span class="currency-symbol">R$</span>
+                        <input 
+                            type="text" 
+                            id="valor-input" 
+                            class="valor-input" 
+                            placeholder="0,00"
+                        >
+                    </div>
+                </div>
+
+                <div class="valores-rapidos">
+                    <button class="btn-valor" data-valor="5">R$ 5,00</button>
+                    <button class="btn-valor badge-valor" data-valor="10">R$ 10,00</button>
+                    <button class="btn-valor badge-valor" data-valor="20">R$ 20,00</button>
+                    <button class="btn-valor" data-valor="50">R$ 50,00</button>
+                    <button class="btn-valor" data-valor="100">R$ 100,00</button>
+                    <button class="btn-valor" data-valor="200">R$ 200,00</button>
+                </div>
+
+                <button id="btn-gerar-pix" class="btn btn-primary btn-large" disabled>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <rect x="6" y="6" width="2" height="2" fill="currentColor"/>
+                        <rect x="12" y="6" width="2" height="2" fill="currentColor"/>
+                        <rect x="6" y="12" width="2" height="2" fill="currentColor"/>
+                        <rect x="12" y="12" width="2" height="2" fill="currentColor"/>
+                    </svg>
+                    Gerar QR Code
+                </button>
+
+                <div class="alert alert-info">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M10 6V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="10" cy="13" r="0.5" fill="currentColor"/>
+                    </svg>
+                    <span>Valor destinado exclusivamente à compra do produto. Não gera rendimentos.</span>
+                </div>
+            </div>
+
+            <div class="termos-aceitos">
+                Termos aceitos<br>Você pode continuar com o pagamento.
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-pix" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Pague com Pix</h3>
+                <button class="modal-close" onclick="fecharModalPix()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p style="margin-bottom: 16px; font-weight: 600; color: #1A1A1A;">Escaneie ou copie a chave PIX</p>
+                
+                <!-- QR Code Real -->
+                <div class="qr-code-container">
+                    <img src="assets/qrcode-pix.png" alt="QR Code PIX" class="qr-code-img" width="250" height="250">
+                </div>
+
+                <!-- Valor -->
+                <div id="valor-pix" class="valor-pix">R$ 10,00</div>
+
+                <!-- Chave PIX para copiar -->
+                <div class="pix-key-container">
+                    <label class="pix-key-label">Chave PIX (copie e cole)</label>
+                    <div class="pix-key-box">
+                        <input 
+                            type="text" 
+                            id="chave-pix" 
+                            class="pix-key-input" 
+                            value="bb504154-b568-404b-830c-df731b2603a5" 
+                            readonly>
+                        <button class="btn-copy-key" onclick="copiarChavePix()">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <rect x="6" y="6" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M4 14V4H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span id="copy-feedback" class="copy-feedback hidden">✓ Copiado!</span>
+                </div>
+
+                <!-- Botões de ação -->
+                <button class="btn btn-primary btn-large" onclick="confirmarPagamento()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 8L7 11L12 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Já paguei
+                </button>
+
+                <p style="font-size: 13px; color: #666; margin-top: 16px; line-height: 1.5;">
+                    ✓ Pagamento confirmado automaticamente após a transferência<br>
+                    ✓ Pode levar até 5 minutos
+                </p>
+            </div>
+        </div>
+    </div>
+
+            <script src="./js/pwa-register.js"></script>
+    <script src="/js/pwa-register.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/depositar.js"></script>
+</body>
+</html>

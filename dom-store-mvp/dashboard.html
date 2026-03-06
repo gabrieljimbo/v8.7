@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Conquiste seu iPhone dos sonhos com pagamentos flexíveis via Pix - DOM STORE FACILITA">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FEDB19">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-novo.png">
+    <link rel="apple-touch-icon" href="./assets/logo-dom-novo.png">
+
+    <title>Dashboard - DOM STORE FACILITA</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/modal-cancelamento.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo"><img src="assets/logo-dom-novo.png" alt="DOM STORE FACILITA" style="height: 32px;"></div>
+            <div class="header-user">
+                <span class="user-greeting">Olá, <span id="user-name">Junior</span></span>
+                <button class="btn-icon" onclick="sair()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M13 14L17 10M17 10L13 6M17 10H7M7 3H5C3.89543 3 3 3.89543 3 5V15C3 16.1046 3.89543 17 5 17H7" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Card do iPhone e Progresso -->
+            <div class="objetivo-card">
+                <div class="objetivo-header">
+                    <div class="objetivo-image">
+                        <svg width="48" height="72" viewBox="0 0 48 72" fill="none">
+                            <rect x="4" y="2" width="40" height="68" rx="8" fill="url(#gradient)" stroke="#1A1A1A" stroke-width="2"/>
+                            <rect x="16" y="6" width="16" height="4" rx="2" fill="rgba(0,0,0,0.5)"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="24" y1="2" x2="24" y2="70" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#2D2D2D"/>
+                                    <stop offset="1" stop-color="#1A1A1A"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="objetivo-info">
+                        <h2 id="objetivo-nome" class="objetivo-nome">iPhone 16</h2>
+                        <p id="objetivo-specs" class="objetivo-specs">128GB • Seminovo Premium</p>
+                        <p id="objetivo-valor" class="objetivo-valor">R$ 4.499,00</p>
+                    </div>
+                </div>
+
+                <!-- Progresso -->
+                <div class="progresso-section">
+                    <h3 class="section-label">Seu progresso</h3>
+                    
+                    <div class="progresso-circle">
+                        <svg class="progress-ring" width="160" height="160">
+                            <circle class="progress-ring-bg" cx="80" cy="80" r="70" />
+                            <circle 
+                                id="progress-ring-circle"
+                                class="progress-ring-circle" 
+                                cx="80" 
+                                cy="80" 
+                                r="70"
+                            />
+                        </svg>
+                        <div class="progresso-center">
+                            <svg width="32" height="48" viewBox="0 0 32 48" fill="none">
+                                <rect x="2" y="1" width="28" height="46" rx="6" stroke="#00BFA5" stroke-width="2"/>
+                                <rect x="11" y="4" width="10" height="3" rx="1.5" fill="#00BFA5"/>
+                            </svg>
+                            <div id="progresso-porcentagem" class="progresso-porcentagem">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="progresso-valores">
+                        <div class="valor-item">
+                            <span class="valor-label">Acumulado</span>
+                            <span id="valor-acumulado" class="valor-numero">R$ 0,00</span>
+                        </div>
+                        <div class="valor-item">
+                            <span class="valor-label">Meta</span>
+                            <span id="valor-meta" class="valor-numero">R$ 4.499,00</span>
+                        </div>
+                    </div>
+
+                    <div class="progresso-faltante">
+                        <span>Faltam</span>
+                        <strong id="valor-faltante">R$ 4.499,00</strong>
+                    </div>
+
+                    <!-- Marcos de Progresso -->
+                    <div class="marcos-progresso">
+                        <div class="marco" data-porcentagem="10">
+                            <div class="marco-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="8" stroke="#00BFA5" stroke-width="2"/>
+                                    <circle cx="10" cy="10" r="3" fill="#00BFA5"/>
+                                </svg>
+                            </div>
+                            <span class="marco-label">10%</span>
+                        </div>
+                        <div class="marco" data-porcentagem="25">
+                            <div class="marco-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="8" stroke="#E0E0E0" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="marco-label">25%</span>
+                        </div>
+                        <div class="marco" data-porcentagem="50">
+                            <div class="marco-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="8" stroke="#E0E0E0" stroke-width="2"/>
+                                    <path d="M10 6L10 10L13 13" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="marco-label">50%</span>
+                        </div>
+                        <div class="marco" data-porcentagem="75">
+                            <div class="marco-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M6 10L9 13L14 8" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="marco-label">75%</span>
+                        </div>
+                        <div class="marco" data-porcentagem="90">
+                            <div class="marco-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="8" stroke="#E0E0E0" stroke-width="2"/>
+                                    <path d="M6 10L9 13L14 7" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="marco-label">90%</span>
+                        </div>
+                    </div>
+
+                    <div class="progresso-incentivo">
+                        <p id="mensagem-incentivo">Próximo marco: <strong>Ótimo começo!</strong></p>
+                        <a href="#" class="link-incentivo" onclick="scrollToDeposit(event)">Faça mais depósitos para calcularmos sua data estimada</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico de Pagamentos -->
+            <div class="historico-card">
+                <div class="historico-header">
+                    <h3>Histórico de pagamentos</h3>
+                    <span id="total-depositos" class="total-depositos">0 depósitos</span>
+                </div>
+                <div id="historico-lista" class="historico-lista">
+                    <div class="historico-vazio">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <circle cx="24" cy="24" r="20" stroke="#E0E0E0" stroke-width="3"/>
+                            <path d="M24 16V24" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="24" cy="30" r="1.5" fill="#E0E0E0"/>
+                        </svg>
+                        <p>Nenhum pagamento realizado ainda.</p>
+                        <small>Deposite via Pix para começar!</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="acoes-card">
+                <a href="#" class="acao-item" onclick="abrirModalInstalacao(); return false;">
+                    <div class="acao-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M12 5L7 10M12 5L17 10" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="acao-text">
+                        <strong>Instalar o app</strong>
+                        <small>Acesse mais rápido pela tela inicial</small>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M8 4L14 10L8 16" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+
+                <a href="termos.html" class="acao-item">
+                    <div class="acao-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect x="6" y="4" width="12" height="16" rx="2" stroke="#00BFA5" stroke-width="2"/>
+                            <path d="M10 9H14M10 12H14M10 15H12" stroke="#00BFA5" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="acao-text">
+                        <strong>Ver termos de uso</strong>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M8 4L14 10L8 16" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+
+                <a href="#" class="acao-item acao-destrutiva" onclick="cancelarObjetivo(); return false;">
+                    <div class="acao-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="9" stroke="#F44336" stroke-width="2"/>
+                            <path d="M15 9L9 15M9 9L15 15" stroke="#F44336" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="acao-text">
+                        <strong>Cancelar objetivo</strong>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M8 4L14 10L8 16" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Botão Flutuante de Depósito -->
+    <button class="btn-depositar" onclick="window.location.href='depositar.html'">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19M5 12H19" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Depositar agora
+    </button>
+
+    <!-- Modal de Cancelamento -->
+    <div id="modal-cancelamento" class="modal-overlay hidden">
+        <div class="modal modal-cancelamento">
+            <div class="modal-header">
+                <div class="modal-title-container">
+                    <span class="modal-title-icon">⚠️</span>
+                    <div>
+                        <h3 class="modal-title">Cancelar objetivo?</h3>
+                        <p class="modal-subtitle">Leia os termos antes de prosseguir</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="fecharModalCancelamento()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="termos-cancelamento">
+                    <p class="termos-cancelamento-title"><strong>Termos de Uso (v1.0)</strong></p>
+                    <p style="margin-bottom: 12px; font-size: 14px;">Ao usar a DOM STORE FACILITA, você concorda que:</p>
+                    <ul class="termos-cancelamento-list">
+                        <li>Este serviço é um sistema de <strong>compra programada</strong> de um produto específico.</li>
+                        <li><strong>Não é poupança, investimento ou conta digital.</strong></li>
+                        <li>Os valores pagos <strong>não geram juros, rendimentos ou correção monetária.</strong></li>
+                        <li>Os pagamentos são feitos via Pix e só são contabilizados após confirmação.</li>
+                        <li>O valor acumulado pode ser usado <strong>exclusivamente</strong> para a compra do produto escolhido.</li>
+                        <li><strong>Não é permitido saque livre.</strong></li>
+                        <li>Ao atingir 100% do valor do produto, a compra é concluída e o <strong>cancelamento não é mais permitido.</strong></li>
+                        <li>Antes de atingir 100%, o cancelamento é permitido com <strong>taxa administrativa de 30%.</strong></li>
+                        <li>O reembolso será de <strong>70% do valor pago</strong>, em até 30 dias.</li>
+                    </ul>
+                    <p style="margin-top: 12px; font-size: 14px; color: #F57C00;"><strong>Ao continuar, você declara que leu e concorda com estes termos.</strong></p>
+                </div>
+
+                <div class="calculo-cancelamento">
+                    <p class="calculo-cancelamento-title">Valores do cancelamento:</p>
+                    
+                    <div class="calculo-linha">
+                        <span class="calculo-label">Valor acumulado:</span>
+                        <span id="modal-valor-acumulado" class="calculo-valor">R$ 0,00</span>
+                    </div>
+                    
+                    <div class="calculo-linha">
+                        <span class="calculo-label">Taxa de cancelamento (30%):</span>
+                        <span id="modal-taxa-cancelamento" class="calculo-valor negativo">- R$ 0,00</span>
+                    </div>
+                    
+                    <div class="calculo-linha">
+                        <span class="calculo-label">Valor a receber:</span>
+                        <span id="modal-valor-receber" class="calculo-valor positivo">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <div class="prazo-reembolso">
+                    <span class="prazo-reembolso-icon">⏰</span>
+                    <p class="prazo-reembolso-text">
+                        <strong>Prazo:</strong> O reembolso será processado manualmente em até <strong>30 dias úteis</strong> após confirmação.
+                    </p>
+                </div>
+
+                <div class="checkbox-termos-cancelamento">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="checkbox-aceitar-cancelamento" class="checkbox">
+                        <span class="checkbox-label">Li e concordo com os Termos de Uso acima</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModalCancelamento()">
+                    Não, manter objetivo
+                </button>
+                <button class="btn btn-primary" id="btn-confirmar-cancelamento" disabled style="background: #F44336; border-color: #F44336;">
+                    Sim, cancelar e aceitar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/pwa-register.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/install-pwa.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

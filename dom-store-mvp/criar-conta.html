@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Conquiste seu iPhone dos sonhos com pagamentos flexíveis via Pix - DOM STORE FACILITA">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FEDB19">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-novo.png">
+    <link rel="apple-touch-icon" href="./assets/logo-dom-novo.png">
+
+    <title>Criar conta - DOM STORE FACILITA</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="6" y="3" width="12" height="18" rx="2" stroke="#00BFA5" stroke-width="2"/>
+                <path d="M12 7L12 13M12 13L9 10M12 13L15 10" stroke="#00BFA5" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="logo-text">DOM STORE FACILITA</span>
+        </div>
+
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="12" r="5" stroke="#00BFA5" stroke-width="2"/>
+                        <path d="M6 26C6 21.5817 9.58172 18 14 18H18C22.4183 18 26 21.5817 26 26" stroke="#00BFA5" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h1 class="auth-title">Criar conta</h1>
+                <p class="auth-subtitle">Comece sua jornada com a DOM STORE FACILITA</p>
+            </div>
+
+            <form id="form-criar-conta" class="auth-form">
+                <!-- Nome Completo -->
+                <div class="input-group">
+                    <label for="nome" class="input-label">Nome completo</label>
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        name="nome" 
+                        class="input"
+                        placeholder="Matheus"
+                        required
+                    >
+                </div>
+
+                <!-- E-mail -->
+                <div class="input-group">
+                    <label for="email" class="input-label">E-mail</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="input"
+                        placeholder="matheusrato@gmail.com"
+                        required
+                    >
+                </div>
+
+                <!-- CPF -->
+                <div class="input-group">
+                    <label for="cpf" class="input-label">CPF</label>
+                    <input 
+                        type="text" 
+                        id="cpf" 
+                        name="cpf" 
+                        class="input"
+                        placeholder="000.000.000-00"
+                        maxlength="14"
+                        required
+                    >
+                    <span id="cpf-error" class="input-error-message hidden">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="7" stroke="#F44336" stroke-width="2"/>
+                            <path d="M8 4V8" stroke="#F44336" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="8" cy="11" r="0.5" fill="#F44336"/>
+                        </svg>
+                        CPF inválido. Verifique e tente novamente.
+                    </span>
+                </div>
+
+                <!-- Telefone -->
+                <div class="input-group">
+                    <label for="telefone" class="input-label">Telefone</label>
+                    <input 
+                        type="tel" 
+                        id="telefone" 
+                        name="telefone" 
+                        class="input"
+                        placeholder="(00) 00000-0000"
+                        maxlength="15"
+                        required
+                    >
+                </div>
+
+                <!-- Estado e Cidade -->
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="estado" class="input-label">Estado</label>
+                        <select id="estado" name="estado" class="input" required>
+                            <option value="">UF</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="cidade" class="input-label">Cidade</label>
+                        <input 
+                            type="text" 
+                            id="cidade" 
+                            name="cidade" 
+                            class="input"
+                            placeholder="Sua cidade"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Senha -->
+                <div class="input-group">
+                    <label for="senha" class="input-label">Senha</label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="senha" 
+                            name="senha" 
+                            class="input"
+                            placeholder="••••••••"
+                            minlength="8"
+                            required
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword('senha')">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 7C8.34315 7 7 8.34315 7 10C7 11.6569 8.34315 13 10 13C11.6569 13 13 11.6569 13 10C13 8.34315 11.6569 7 10 7Z" stroke="#666" stroke-width="1.5"/>
+                                <path d="M10 3C5.58172 3 2 10 2 10C2 10 5.58172 17 10 17C14.4183 17 18 10 18 10C18 10 14.4183 3 10 3Z" stroke="#666" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span class="input-helper">Mínimo de 8 caracteres</span>
+                </div>
+
+                <!-- Confirmar Senha -->
+                <div class="input-group">
+                    <label for="confirmar-senha" class="input-label">Confirmar senha</label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="confirmar-senha" 
+                            name="confirmar-senha" 
+                            class="input"
+                            placeholder="••••••••"
+                            minlength="8"
+                            required
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmar-senha')">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 7C8.34315 7 7 8.34315 7 10C7 11.6569 8.34315 13 10 13C11.6569 13 13 11.6569 13 10C13 8.34315 11.6569 7 10 7Z" stroke="#666" stroke-width="1.5"/>
+                                <path d="M10 3C5.58172 3 2 10 2 10C2 10 5.58172 17 10 17C14.4183 17 18 10 18 10C18 10 14.4183 3 10 3Z" stroke="#666" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Termos de Uso -->
+                <div class="terms-box">
+                    <div class="terms-header">
+                        <span class="terms-version">Termos de Uso (vv1.0)</span>
+                    </div>
+                    <div class="terms-content">
+                        <p><strong>Ao usar a DOM STORE FACILITA, você concorda que:</strong></p>
+                        <ul>
+                            <li>Este serviço é um sistema de <strong>compra programada</strong> de um produto específico.</li>
+                            <li><strong>Não é poupança, investimento ou conta digital.</strong></li>
+                            <li>Os valores pagos <strong>não geram juros, rendimentos ou correção monetária.</strong></li>
+                            <li>Os pagamentos são feitos via Pix e só são contabilizados após confirmação.</li>
+                            <li>O valor acumulado pode ser usado <strong>exclusivamente</strong> para a compra do produto escolhido.</li>
+                            <li><strong>Não é permitido saque livre.</strong></li>
+                            <li>Ao atingir 100% do valor do produto, a compra é concluída e o <strong>cancelamento não é mais permitido.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Checkbox Termos -->
+                <label class="checkbox-container">
+                    <input type="checkbox" id="aceitar-termos" name="aceitar-termos" class="checkbox" required>
+                    <span class="checkbox-label">
+                        Li e concordo com os Termos de Uso
+                    </span>
+                </label>
+
+                <!-- Aviso -->
+                <div class="alert alert-info">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M9 9H11V14H9V9Z" fill="#1976D2"/>
+                        <circle cx="10" cy="6" r="1" fill="#1976D2"/>
+                        <circle cx="10" cy="10" r="8" stroke="#1976D2" stroke-width="2"/>
+                    </svg>
+                    <div>
+                        <strong>Seus dados estão protegidos e não serão compartilhados.</strong>
+                        <br>
+                        <small>Este serviço não é investimento nem poupança.</small>
+                    </div>
+                </div>
+
+                <!-- Botão Submit -->
+                <button type="submit" class="btn btn-primary btn-large" id="btn-criar-conta">
+                    Continuar
+                </button>
+
+                <!-- Link para Login -->
+                <p class="auth-footer-text">
+                    Já tem uma conta? <a href="#" class="auth-link">Entrar</a>
+                </p>
+
+                <a href="#" class="auth-footer-link">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 2V14M8 14L12 10M8 14L4 10" stroke="#00BFA5" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Instalar o app
+                </a>
+            </form>
+        </div>
+    </div>
+
+            <script src="./js/pwa-register.js"></script>
+    <script src="/js/pwa-register.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/criar-conta.js"></script>
+</body>
+</html>

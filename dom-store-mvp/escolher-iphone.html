@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Conquiste seu iPhone dos sonhos com pagamentos flexíveis via Pix - DOM STORE FACILITA">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FEDB19">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-novo.png">
+    <link rel="apple-touch-icon" href="./assets/logo-dom-novo.png">
+
+    <title>Escolha seu iPhone - DOM STORE FACILITA</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/escolher-iphone.css">
+    <link rel="stylesheet" href="css/badges-iphone.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo"><img src="assets/logo-dom-novo.png" alt="DOM STORE FACILITA" style="height: 32px;"></div>
+            <div class="header-user">
+                <span class="user-greeting">Olá, <span id="user-name">Junior</span></span>
+                <button class="btn-icon" onclick="window.location.href='index.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 5L10 10M10 10L5 15M10 10L15 15M10 10L5 5" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="#" onclick="history.back()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M10 12L6 8L10 4" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+
+            <!-- Header da página -->
+            <div class="page-header">
+                <h1 class="page-title">Escolha seu iPhone</h1>
+                <p class="page-subtitle">Selecione o modelo que você deseja conquistar.</p>
+                
+                <!-- Busca -->
+                <div class="search-box">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="9" cy="9" r="6" stroke="#999" stroke-width="2"/>
+                        <path d="M14 14L17 17" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Buscar modelo (ex: iPhone 15 Pro Max)" 
+                        class="search-input"
+                    >
+                </div>
+            </div>
+
+            <!-- Grid de iPhones -->
+            <div id="iphones-grid" class="iphones-grid">
+                <!-- Os cards serão inseridos dinamicamente via JavaScript -->
+            </div>
+
+            <!-- Info sobre serviço -->
+            <div class="info-box">
+                <p>Este serviço não é investimento, nem poupança.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de confirmação -->
+    <div id="modal-confirmar" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="6" y="3" width="12" height="18" rx="2" stroke="#00BFA5" stroke-width="2"/>
+                    </svg>
+                    DOM STORE FACILITA
+                </h3>
+                <button class="modal-close" onclick="fecharModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <circle cx="24" cy="24" r="20" fill="#FFF3E0"/>
+                        <path d="M24 16V24" stroke="#FF9800" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="24" cy="30" r="1.5" fill="#FF9800"/>
+                    </svg>
+                </div>
+                <h2 id="modal-iphone-title" class="modal-iphone-title"></h2>
+                <p id="modal-iphone-valor" class="modal-iphone-valor"></p>
+                
+                <div class="alert alert-warning">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 3L2 17H18L10 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M10 8V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="10" cy="14" r="0.5" fill="currentColor"/>
+                    </svg>
+                    <span>O preço ficará <strong>travado</strong> a partir de agora. Você não pagará mais nem menos do que isso.</span>
+                </div>
+                
+                <p class="modal-description">
+                    Ao confirmar, você iniciará sua jornada para conquistar este iPhone. Você poderá fazer depósitos quando quiser, no seu ritmo.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModal()">Voltar</button>
+                <button class="btn btn-primary" onclick="confirmarEscolha()">Confirmar e começar</button>
+            </div>
+        </div>
+    </div>
+
+            <script src="./js/pwa-register.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/escolher-iphone.js"></script>
+</body>
+</html>

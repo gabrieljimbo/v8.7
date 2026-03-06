@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Conquiste seu iPhone dos sonhos com pagamentos flexíveis via Pix - DOM STORE FACILITA">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FEDB19">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-novo.png">
+    <link rel="apple-touch-icon" href="./assets/logo-dom-novo.png">
+
+    <title>Aceitar Termos - DOM STORE FACILITA</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Modal de Aceitar Termos -->
+    <div class="modal-overlay">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+                <a href="escolher-iphone.html" style="display: flex; align-items: center; gap: 8px; color: #666; font-size: 14px;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Voltar
+                </a>
+                <div style="flex: 1;"></div>
+                <div class="logo"><img src="assets/logo-dom-novo.png" alt="DOM STORE FACILITA" style="height: 32px;"></div>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div class="auth-icon" style="margin: 0 auto 16px;">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect x="6" y="4" width="20" height="24" rx="2" stroke="#00BFA5" stroke-width="2"/>
+                            <path d="M12 12H20M12 16H20M12 20H16" stroke="#00BFA5" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Antes de continuar</h2>
+                    <p style="color: #666; font-size: 14px;">Versão v1.0</p>
+                </div>
+
+                <div class="alert alert-warning" style="margin-bottom: 24px;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 3L2 17H18L10 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M10 8V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="10" cy="14" r="0.5" fill="currentColor"/>
+                    </svg>
+                    <span style="font-size: 13px;"></span>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <p style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Ao usar a DOM STORE FACILITA, você concorda que:</p>
+                    <ul style="list-style: none; padding: 0; font-size: 14px; color: #666; line-height: 1.8;">
+                        <li style="margin-bottom: 8px; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            Este serviço é um sistema de <strong style="color: #1A1A1A;">compra programada</strong> de um produto específico.
+                        </li>
+                        <li style="margin-bottom: 8px; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            <strong style="color: #1A1A1A;">Não é poupança, investimento ou conta digital.</strong>
+                        </li>
+                        <li style="margin-bottom: 8px; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            Os valores pagos <strong style="color: #1A1A1A;">não geram juros, rendimentos ou correção monetária.</strong>
+                        </li>
+                        <li style="margin-bottom: 8px; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            Os pagamentos são feitos via Pix e só são contabilizados após confirmação.
+                        </li>
+                        <li style="margin-bottom: 8px; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            O valor acumulado pode ser usado <strong style="color: #1A1A1A;">exclusivamente</strong> para a compra do produto escolhido.
+                        </li>
+                        <li style="margin-bottom: 8px; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            <strong style="color: #1A1A1A;">Não é permitido saque livre.</strong>
+                        </li>
+                        <li style="padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00BFA5;">•</span>
+                            Ao atingir 100% do valor do produto, a compra é concluída e o <strong style="color: #1A1A1A;">cancelamento não é mais permitido.</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <label class="checkbox-container" style="margin-bottom: 24px;">
+                    <input type="checkbox" id="aceitar-termos" class="checkbox">
+                    <span class="checkbox-label" style="color: #1A1A1A; font-size: 14px;">
+                        Li e concordo com os Termos de Uso
+                    </span>
+                </label>
+
+                <button id="btn-aceitar" class="btn btn-primary btn-large" style="width: 100%;" disabled>
+                    Aceitar e continuar
+                </button>
+            </div>
+        </div>
+    </div>
+
+            <script src="./js/pwa-register.js"></script>
+    <script src="/js/pwa-register.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        const checkbox = document.getElementById('aceitar-termos');
+        const btnAceitar = document.getElementById('btn-aceitar');
+
+        // Habilita botão quando checkbox é marcado
+        checkbox.addEventListener('change', function() {
+            btnAceitar.disabled = !this.checked;
+        });
+
+        // Aceita termos e vai para dashboard
+        btnAceitar.addEventListener('click', function() {
+            const objetivoAtivo = obterLocal('objetivoAtivo');
+            
+            if (!objetivoAtivo) {
+                mostrarToast('Erro: objetivo não encontrado', 'error');
+                window.location.href = 'escolher-iphone.html';
+                return;
+            }
+
+            // Marca que aceitou os termos
+            objetivoAtivo.termosAceitos = true;
+            objetivoAtivo.dataAceiteTermos = new Date().toISOString();
+            salvarLocal('objetivoAtivo', objetivoAtivo);
+
+            // Mostra toast e redireciona
+            mostrarToast('Termos aceitos! Redirecionando...', 'success');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
