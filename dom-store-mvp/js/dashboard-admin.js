@@ -12,23 +12,32 @@ let _chartStatus, _chartCadastros, _chartValor;
 // ========== INICIALIZAÇÃO ==========
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Aguarda auth.js
-    await new Promise(r => setTimeout(r, 500));
+    // Verifica sessão diretamente no Supabase (sem depender de timing do localStorage)
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (!session) {
+        window.location.href = 'login.html';
+        return;
+    }
 
-    const usuario = obterLocal('usuario');
-    if (!usuario || usuario.tipo !== 'admin') {
+    const { data: profile } = await _supabase
+        .from('profiles')
+        .select('nome, tipo')
+        .eq('id', session.user.id)
+        .single();
+
+    if (!profile || profile.tipo !== 'admin') {
         mostrarToast('Acesso restrito a administradores', 'error');
         setTimeout(() => window.location.href = 'index.html', 2000);
         return;
     }
 
     // Header
-    document.getElementById('admin-nome').textContent = usuario.nome;
+    document.getElementById('admin-nome').textContent = profile.nome;
 
     // Saudação com hora
     const hora = new Date().getHours();
     const saudacao = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
-    document.getElementById('greeting').textContent = `${saudacao}, ${usuario.nome.split(' ')[0]}!`;
+    document.getElementById('greeting').textContent = `${saudacao}, ${profile.nome.split(' ')[0]}!`;
 
     // Data atual
     const hoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
@@ -56,12 +65,12 @@ async function carregarDados() {
             _supabase.from('jornadas').select(`
                 id, iphone_nome, iphone_armazenamento, valor_total,
                 valor_acumulado, porcentagem, status, created_at,
-                profiles:user_id ( nome, email )
+                profiles!jornadas_user_id_profiles_fkey ( nome, email )
             `).order('created_at', { ascending: false }),
             _supabase.from('depositos').select(`
                 id, valor, status, created_at, jornada_id,
-                profiles:user_id ( nome, email ),
-                jornadas:jornada_id ( iphone_nome )
+                profiles!depositos_user_id_profiles_fkey ( nome, email ),
+                jornadas!depositos_jornada_id_fkey ( iphone_nome )
             `).order('created_at', { ascending: false }),
             _supabase.from('profiles').select('created_at').eq('tipo', 'cliente').gte('created_at', quatorze).order('created_at', { ascending: true })
         ]);

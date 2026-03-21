@@ -285,7 +285,6 @@ async function confirmarEscolha() {
         .from('jornadas')
         .insert({
             user_id: usuario.id,
-            iphone_id: iphone.id,
             iphone_nome: iphone.nome,
             iphone_modelo: iphone.modelo,
             iphone_armazenamento: iphone.armazenamento,

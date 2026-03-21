@@ -9,24 +9,26 @@ let todosDepositos = [];
 // ========== INICIALIZAÇÃO ==========
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Verifica se é admin
-    const usuario = obterLocal('usuario');
-    if (!usuario) {
+    // Verifica sessão diretamente no Supabase (sem depender de timing do localStorage)
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (!session) {
         window.location.href = 'login.html';
         return;
     }
 
-    // Aguarda auth.js inicializar a sessão (getSession é async)
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const { data: profile } = await _supabase
+        .from('profiles')
+        .select('nome, tipo')
+        .eq('id', session.user.id)
+        .single();
 
-    const usuarioAtualizado = obterLocal('usuario');
-    if (!usuarioAtualizado || usuarioAtualizado.tipo !== 'admin') {
+    if (!profile || profile.tipo !== 'admin') {
         mostrarToast('Acesso restrito a administradores', 'error');
         setTimeout(() => window.location.href = 'index.html', 2000);
         return;
     }
 
-    document.getElementById('admin-nome').textContent = usuarioAtualizado.nome;
+    document.getElementById('admin-nome').textContent = profile.nome;
 
     await carregarDepositos();
 });
@@ -40,8 +42,8 @@ async function carregarDepositos() {
         .from('depositos')
         .select(`
             *,
-            profiles:user_id ( nome, email, cpf ),
-            jornadas:jornada_id ( iphone_nome, iphone_armazenamento, valor_total )
+            profiles!depositos_user_id_profiles_fkey ( nome, email, cpf ),
+            jornadas!depositos_jornada_id_fkey ( iphone_nome, iphone_armazenamento, valor_total )
         `)
         .order('created_at', { ascending: false });
 
