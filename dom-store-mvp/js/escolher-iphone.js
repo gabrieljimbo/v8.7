@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const _u = obterUsuarioLogado();
     if (_u && _u.tipo === 'admin') {
-        window.location.href = 'admin.html';
+        window.location.href = 'dashboard-admin.html';
         return;
     }
     

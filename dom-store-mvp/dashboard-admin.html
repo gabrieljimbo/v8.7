@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin — DOM Store</title>
+    <link rel="icon" type="image/png" href="./assets/logo-dom-store-v1.png">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/dashboard-admin.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <div class="admin-logo">DOM<span>Store</span></div>
+            <span class="admin-badge">Admin</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="dashboard-admin.html" class="nav-link ativo">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="9" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="9" width="5" height="5" rx="1" fill="currentColor"/><rect x="9" y="9" width="5" height="5" rx="1" fill="currentColor"/></svg>
+                Dashboard
+            </a>
+            <a href="admin.html" class="nav-link" id="link-validar">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 8h11M2 12h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Validar Depósitos
+                <span class="nav-badge" id="badge-pendentes" style="display:none"></span>
+            </a>
+        </nav>
+        <div class="admin-header-right">
+            <span id="admin-nome">—</span>
+            <button class="btn-sair" onclick="sair()">Sair</button>
+        </div>
+    </header>
+
+    <main class="admin-main dash-main">
+
+        <!-- PAGE TITLE -->
+        <div class="dash-title-row">
+            <div>
+                <h1 class="admin-title" id="greeting">Painel Geral</h1>
+                <p class="admin-subtitle" id="dash-date">Visão completa do negócio em tempo real</p>
+            </div>
+            <button class="btn-refresh" onclick="recarregar()" id="btn-refresh">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M13 2.5A6.5 6.5 0 1 1 7 .5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13 .5v2h-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Atualizar
+            </button>
+        </div>
+
+        <!-- KPI CARDS -->
+        <div class="kpi-grid" id="kpi-grid">
+            <div class="kpi-card" id="kpi-clientes">
+                <div class="kpi-icon kpi-icon-blue">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 16c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Total Clientes</div>
+                    <div class="kpi-value" id="v-clientes">—</div>
+                    <div class="kpi-sub" id="s-clientes">cadastrados</div>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-adesoes">
+                <div class="kpi-icon kpi-icon-green">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Novas Adesões</div>
+                    <div class="kpi-value" id="v-adesoes">—</div>
+                    <div class="kpi-sub">últimos 7 dias</div>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-ativas">
+                <div class="kpi-icon kpi-icon-teal">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L3 7v9h4v-4h4v4h4V7L9 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Jornadas Ativas</div>
+                    <div class="kpi-value" id="v-ativas">—</div>
+                    <div class="kpi-sub" id="s-ativas">em andamento</div>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-aprovado">
+                <div class="kpi-icon kpi-icon-teal">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4.5 4.5L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Valor Aprovado</div>
+                    <div class="kpi-value kpi-value-sm" id="v-aprovado">—</div>
+                    <div class="kpi-sub">total confirmado</div>
+                </div>
+            </div>
+            <div class="kpi-card kpi-destaque" id="kpi-pendentes">
+                <div class="kpi-icon kpi-icon-yellow">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Aguardando Validação</div>
+                    <div class="kpi-value kpi-value-yellow" id="v-pendentes">—</div>
+                    <div class="kpi-sub"><a href="admin.html" class="kpi-action">Validar agora →</a></div>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-taxa">
+                <div class="kpi-icon kpi-icon-purple">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14L7 8l3 4 3-6 3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Taxa de Aprovação</div>
+                    <div class="kpi-value" id="v-taxa">—</div>
+                    <div class="kpi-sub" id="s-taxa">dos depósitos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="charts-grid">
+            <!-- Donut: Status -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <span class="chart-title">Depósitos por Status</span>
+                </div>
+                <div class="donut-wrapper">
+                    <canvas id="chart-status"></canvas>
+                    <div class="donut-center" id="donut-total">
+                        <span class="donut-num" id="donut-num">—</span>
+                        <span class="donut-label">total</span>
+                    </div>
+                </div>
+                <div class="donut-legend" id="donut-legend"></div>
+            </div>
+
+            <!-- Bar: Cadastros por dia -->
+            <div class="chart-card chart-card-wide">
+                <div class="chart-header">
+                    <span class="chart-title">Novas Adesões — últimos 14 dias</span>
+                </div>
+                <div class="chart-canvas-wrap">
+                    <canvas id="chart-cadastros"></canvas>
+                </div>
+            </div>
+
+            <!-- Line: Valor aprovado acumulado -->
+            <div class="chart-card chart-card-full">
+                <div class="chart-header">
+                    <span class="chart-title">Valor Aprovado Acumulado — últimos 30 dias</span>
+                    <span class="chart-total-label" id="chart-total-aprovado"></span>
+                </div>
+                <div class="chart-canvas-wrap chart-canvas-tall">
+                    <canvas id="chart-valor"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM GRID: Tabela + Feed -->
+        <div class="bottom-grid">
+
+            <!-- Tabela de clientes -->
+            <div class="section-card clientes-section">
+                <div class="section-header">
+                    <span class="section-title">Clientes e Progresso</span>
+                    <div class="section-actions">
+                        <input type="text" class="busca-input" placeholder="Buscar cliente..." id="busca-cliente">
+                        <span class="section-count" id="clientes-count">—</span>
+                    </div>
+                </div>
+                <div class="clientes-header">
+                    <span>Cliente</span>
+                    <span>iPhone</span>
+                    <span>Progresso</span>
+                    <span>Acumulado</span>
+                    <span>Status</span>
+                </div>
+                <div id="clientes-lista">
+                    <div class="loading-state"><div class="spinner"></div><p>Carregando...</p></div>
+                </div>
+            </div>
+
+            <!-- Feed de atividade -->
+            <div class="section-card atividade-section">
+                <div class="section-header">
+                    <span class="section-title">Atividade Recente</span>
+                    <a href="admin.html" class="section-link">Ver todos →</a>
+                </div>
+                <div id="feed-atividade">
+                    <div class="loading-state"><div class="spinner"></div><p>Carregando...</p></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard-admin.js"></script>
+</body>
+</html>

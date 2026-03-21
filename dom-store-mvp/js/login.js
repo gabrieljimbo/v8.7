@@ -33,7 +33,7 @@ if (formLogin) {
             mostrarToast('Login realizado com sucesso!', 'success');
             setTimeout(() => {
                 if (resultado.usuario.tipo === 'admin') {
-                    window.location.href = 'admin.html';
+                    window.location.href = 'dashboard-admin.html';
                     return;
                 }
                 const objetivoAtivo = obterLocal('objetivoAtivo');
@@ -62,7 +62,7 @@ window.togglePassword = togglePassword;
 if (obterLocal('autenticado')) {
     const usuario = obterLocal('usuario');
     if (usuario && usuario.tipo === 'admin') {
-        window.location.href = 'admin.html';
+        window.location.href = 'dashboard-admin.html';
     } else {
         const objetivoAtivo = obterLocal('objetivoAtivo');
         if (objetivoAtivo && !objetivoAtivo.cancelado) {
