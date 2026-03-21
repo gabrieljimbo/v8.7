@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - DOM Store</title>
+    <link rel="icon" type="image/png" href="./assets/logo-dom-store-v1.png">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <div class="admin-logo">DOM<span>Store</span></div>
+            <span class="admin-badge">Admin</span>
+        </div>
+        <div class="admin-header-right">
+            <span id="admin-nome">—</span>
+            <button class="btn-sair" onclick="sair()">Sair</button>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="admin-main">
+
+        <h1 class="admin-title">Painel Administrativo</h1>
+        <p class="admin-subtitle">Valide os depósitos enviados pelos clientes</p>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card pendente">
+                <div class="stat-label">Aguardando validação</div>
+                <div class="stat-value" id="stat-pendentes">—</div>
+            </div>
+            <div class="stat-card aprovado">
+                <div class="stat-label">Aprovados</div>
+                <div class="stat-value" id="stat-aprovados">—</div>
+            </div>
+            <div class="stat-card valor">
+                <div class="stat-label">Valor pendente total</div>
+                <div class="stat-value" id="stat-valor-pendente">—</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros">
+            <button class="btn-filtro ativo" data-filtro="pendente" onclick="filtrar('pendente')">Pendentes</button>
+            <button class="btn-filtro" data-filtro="aprovado" onclick="filtrar('aprovado')">Aprovados</button>
+            <button class="btn-filtro" data-filtro="rejeitado" onclick="filtrar('rejeitado')">Rejeitados</button>
+            <button class="btn-filtro" data-filtro="todos" onclick="filtrar('todos')">Todos</button>
+        </div>
+
+        <!-- Tabela -->
+        <div class="depositos-section">
+            <div class="section-header">
+                <span class="section-title">Depósitos</span>
+                <span class="section-count" id="depositos-count">—</span>
+            </div>
+
+            <!-- Cabeçalho (desktop) -->
+            <div class="deposito-item header">
+                <span>Cliente</span>
+                <span>Valor</span>
+                <span>Data</span>
+                <span>Status</span>
+                <span style="text-align:right">Ações</span>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading-state" class="loading-state">
+                <div class="spinner"></div>
+                <p>Carregando depósitos...</p>
+            </div>
+
+            <!-- Lista dinâmica -->
+            <div id="depositos-lista" style="display:none"></div>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

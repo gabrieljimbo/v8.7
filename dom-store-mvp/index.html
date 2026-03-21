@@ -3,305 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Do seu jeito com a Dom. Comece com qualquer valor, deposite quando der e acompanhe seu avanço. Fechou a meta, fechou a compra - DOM STORE FACILITA">
-    
-    <!-- PWA Meta Tags -->
+    <meta name="description" content="Escolha seu iPhone, deposite via Pix no seu ritmo e retire quando bater a meta. Sem juros, sem parcelas, sem estresse. DOM Store Facilita.">
+
+    <!-- PWA -->
     <meta name="theme-color" content="#FEDB19">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
-    
-    <!-- Manifest -->
+    <meta name="apple-mobile-web-app-title" content="DOM Store">
     <link rel="manifest" href="./manifest.json">
-    
-    <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-store-v1.png">
+    <link rel="icon" type="image/png" href="./assets/logo-dom-store-v1.png">
     <link rel="apple-touch-icon" href="./assets/logo-dom-store-v1.png">
-    
-    <title>DOM STORE FACILITA - Seu celular planejado, do começo ao fim</title>
+
+    <title>DOM Store — Seu iPhone, do seu jeito</title>
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/logo.css">
-    <link rel="stylesheet" href="css/onboarding.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/home-novo.css">
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="logo"><span class="logo-dom">DOM</span><span class="logo-store">Store</span></div>
-            <nav class="nav">
-                <a href="login.html" class="nav-link">Entrar</a>
-                <button class="btn btn-primary" onclick="window.location.href='criar-conta.html'">Criar conta</button>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <span class="hero-badge">
+<!-- ==================== HEADER ==================== -->
+<header class="header">
+    <div class="container">
+        <a href="index-novo.html" class="logo">
+            <span class="logo-dom">DOM</span><span class="logo-store">Store</span>
+        </a>
+        <nav class="nav">
+            <a href="#como-funciona" class="nav-link">Como funciona</a>
+            <a href="#duvidas" class="nav-link">Dúvidas</a>
+            <a href="login.html" class="nav-link">Entrar</a>
+            <a href="criar-conta.html" class="btn-nav-primary">Começar agora</a>
+        </nav>
+        <button class="hamburger" onclick="abrirMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+    <button class="mobile-nav-close" onclick="fecharMenu()">✕</button>
+    <a href="#como-funciona" onclick="fecharMenu()">Como funciona</a>
+    <a href="#duvidas" onclick="fecharMenu()">Dúvidas</a>
+    <a href="login.html">Entrar</a>
+    <button class="btn-mobile-cta" onclick="window.location.href='criar-conta.html'">
+        Quero meu iPhone agora
+    </button>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+
+            <!-- Lado esquerdo: Copy -->
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span class="hero-badge-dot">✦</span>
+                    Sem banco, sem financeira, sem juros
+                </div>
+
+                <h1 class="hero-title">
+                    Seu iPhone.<br>
+                    Do seu <span class="destaque">jeito</span>.
+                </h1>
+
+                <p class="hero-subtitle">
+                    Escolha o modelo, deposite via Pix <strong>quando e quanto puder</strong>, e retire quando a meta fechar. Simples assim — sem análise de crédito, sem 12x com juros.
+                </p>
+
+                <div class="hero-pillars">
+                    <div class="pillar">
+                        <div class="pillar-icon">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M2 7L5.5 10.5L12 4" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        Sem juros
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M2 7L5.5 10.5L12 4" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        No seu ritmo
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M2 7L5.5 10.5L12 4" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        Preço travado
+                    </div>
+                </div>
+
+                <div class="hero-cta-group">
+                    <button class="btn-hero-primary" onclick="window.location.href='criar-conta.html'">
+                        Quero meu iPhone agora
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <circle cx="8" cy="8" r="6" stroke="#FEDB19" stroke-width="1.5"/>
-                            <path d="M8 5V8L10 10" stroke="#FEDB19" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M6 12L10 8L6 4" stroke="white" stroke-width="2" stroke-linecap="round"/>
                         </svg>
-                        Do seu jeito com a Dom
-                    </span>
-                    <h1 class="hero-title">
-                        Seu celular <span class="highlight">planejado</span>,<br>
-                        do começo ao fim
-                    </h1>
-                    <p class="hero-description">
-                        Comece com qualquer valor, deposite quando der e acompanhe seu avanço. 
-                        Fechou a meta, fechou a compra.
-                    </p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary btn-large" onclick="window.location.href='criar-conta.html'">
-                            COMEÇAR AGORA
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M6 12L10 8L6 4" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </button>
-                        <button class="btn btn-secondary btn-large" onclick="window.location.href='login.html'">
-                            JÁ TENHO CONTA
-                        </button>
-                    </div>
-                    <div class="hero-features">
-                        <div class="feature-item">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Sem juros</span>
-                        </div>
-                        <div class="feature-item">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>100% seguro</span>
-                        </div>
-                        <div class="feature-item">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Transparente</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="phone-mockup">
-                        <div class="phone-screen">
-                            <div class="pix-badge">PIX</div>
-                            <p class="phone-text">Não é 1x, é quando<br>quiser e puder</p>
-                            <p class="phone-subtext">seu próximo iPhone</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card mobile: substitui phone mockup em telas pequenas -->
-                <div class="hero-mobile-card">
-                    <div class="hmc-label">Exemplo de meta</div>
-                    <div class="hmc-model">iPhone 15 Pro Max</div>
-                    <div class="hmc-bar-wrap">
-                        <div class="hmc-bar">
-                            <div class="hmc-bar-fill" style="width: 68%"></div>
-                        </div>
-                        <span class="hmc-percent">68%</span>
-                    </div>
-                    <div class="hmc-values">
-                        <span>Depositado: <strong>R$ 8.499</strong></span>
-                        <span>Meta: <strong>R$ 12.499</strong></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">Como funciona a DOM STORE FACILITA</h2>
-            <p class="section-subtitle">Um jeito simples de planejar sua compra e conquistar seu celular sem parcelas.</p>
-            
-            <div class="steps">
-                <!-- Passo 1: Escolha seu celular -->
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                            <rect x="14" y="6" width="20" height="36" rx="3" stroke="#FEDB19" stroke-width="2.5"/>
-                            <rect x="14" y="6" width="20" height="36" rx="3" fill="#FEDB19" fill-opacity="0.1"/>
-                            <line x1="20" y1="37" x2="28" y2="37" stroke="#FEDB19" stroke-width="2.5" stroke-linecap="round"/>
-                            <circle cx="24" cy="11" r="1" fill="#FEDB19"/>
-                        </svg>
-                    </div>
-                    <h3 class="step-title">Escolha seu celular</h3>
-                    <p class="step-description">Selecione o modelo desejado e defina a meta de valor para começar seu plano.</p>
+                    </button>
+                    <button class="btn-hero-secondary" onclick="window.location.href='login.html'">
+                        Já tenho conta
+                    </button>
                 </div>
 
-                <!-- Passo 2: Deposite via Pix -->
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                            <!-- Ícone PIX estilizado -->
-                            <rect x="10" y="10" width="10" height="10" rx="2" fill="#FEDB19"/>
-                            <rect x="28" y="10" width="10" height="10" rx="2" fill="#FEDB19"/>
-                            <rect x="10" y="28" width="10" height="10" rx="2" fill="#FEDB19"/>
-                            <rect x="28" y="28" width="10" height="10" rx="2" fill="#FEDB19"/>
-                            <path d="M18 18L30 30M30 18L18 30" stroke="#FEDB19" stroke-width="3" stroke-linecap="round"/>
-                            <!-- Moedas/progresso -->
-                            <circle cx="38" cy="14" r="3" fill="#FEDB19" opacity="0.7"/>
-                            <circle cx="42" cy="18" r="2" fill="#FEDB19" opacity="0.5"/>
-                        </svg>
-                    </div>
-                    <h3 class="step-title">Deposite via Pix no seu ritmo</h3>
-                    <p class="step-description">Faça depósitos quando quiser, com qualquer valor, e acompanhe seu saldo crescer.</p>
-                </div>
-
-                <!-- Passo 3: Complete a meta -->
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                            <!-- Check + Box de entrega -->
-                            <circle cx="24" cy="20" r="12" fill="#FEDB19" fill-opacity="0.2" stroke="#FEDB19" stroke-width="2.5"/>
-                            <path d="M18 20L22 24L30 16" stroke="#FEDB19" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <!-- Box de entrega -->
-                            <rect x="14" y="32" width="20" height="10" rx="1" stroke="#FEDB19" stroke-width="2" fill="none"/>
-                            <path d="M19 37L24 34L29 37" stroke="#FEDB19" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3 class="step-title">Complete a meta e finalize</h3>
-                    <p class="step-description">Ao atingir o valor, você conclui a compra e escolhe retirar na loja ou receber em casa.</p>
-                </div>
-            </div>
-
-            <!-- Benefícios abaixo dos passos -->
-            <div class="benefits-row">
-                <div class="benefit-item">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M10 2L12.5 7L18 8L14 12L15 18L10 15L5 18L6 12L2 8L7.5 7L10 2Z" fill="#FEDB19"/>
+                <p class="cta-microcopy">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M7 1L8.5 5H13L9.5 7.5L11 11.5L7 9L3 11.5L4.5 7.5L1 5H5.5L7 1Z" fill="#FEDB19"/>
                     </svg>
-                    <span>Sem juros</span>
-                </div>
-                <div class="benefit-item">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M10 2L12.5 7L18 8L14 12L15 18L10 15L5 18L6 12L2 8L7.5 7L10 2Z" fill="#FEDB19"/>
-                    </svg>
-                    <span>Sem parcelas</span>
-                </div>
-                <div class="benefit-item">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M10 2L12.5 7L18 8L14 12L15 18L10 15L5 18L6 12L2 8L7.5 7L10 2Z" fill="#FEDB19"/>
-                    </svg>
-                    <span>Acompanhamento em tempo real</span>
-                </div>
+                    Cadastro grátis · Sem cartão de crédito · 1 minuto pra começar
+                </p>
             </div>
-        </div>
-    </section>
 
-    <section class="not-bank">
-        <div class="container">
-            <div class="not-bank-content">
-                <div class="not-bank-text">
-                    <span class="badge badge-security">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M8 1L3 3V7C3 10.5 5.5 13.5 8 15C10.5 13.5 13 10.5 13 7V3L8 1Z" fill="#FEDB19"/>
-                            <path d="M6 8L7.5 9.5L10 6.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Lado direito: Visual -->
+            <div class="hero-visual">
+
+                <!-- Trust card flutuante (topo esquerdo) -->
+                <div class="hero-card-trust">
+                    <div class="hct-avatars">
+                        <div class="hct-avatar">A</div>
+                        <div class="hct-avatar">M</div>
+                        <div class="hct-avatar">R</div>
+                    </div>
+                    <div class="hct-text">
+                        <div class="hct-num">+127 pessoas</div>
+                        <div class="hct-label">já têm seu iPhone</div>
+                    </div>
+                </div>
+
+                <!-- Card principal: dashboard preview -->
+                <div class="hero-card-main">
+                    <div class="hc-label">Sua meta ativa</div>
+                    <div class="hc-model">iPhone 16 Pro Max</div>
+                    <div class="hc-specs">256GB · Titanium Natural</div>
+
+                    <div class="hc-progress-label">
+                        <span>Progresso</span>
+                        <span>68%</span>
+                    </div>
+                    <div class="hc-bar">
+                        <div class="hc-bar-fill"></div>
+                    </div>
+
+                    <div class="hc-values">
+                        <div class="hc-value-item">
+                            <div class="val">R$ 4.419</div>
+                            <div class="val-label">Depositado</div>
+                        </div>
+                        <div class="hc-divider"></div>
+                        <div class="hc-value-item">
+                            <div class="val">R$ 2.080</div>
+                            <div class="val-label">Faltam</div>
+                        </div>
+                        <div class="hc-divider"></div>
+                        <div class="hc-value-item">
+                            <div class="val">R$ 6.499</div>
+                            <div class="val-label">Meta total</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating deposit card (baixo direito) -->
+                <div class="hero-card-float">
+                    <div class="hcf-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="8" stroke="#00BFA5" stroke-width="2"/>
+                            <path d="M6 10L8.5 12.5L14 7" stroke="#00BFA5" stroke-width="2" stroke-linecap="round"/>
                         </svg>
-                        Segurança e Transparência
-                    </span>
-                    <h2 class="not-bank-title">Aqui você planeja, não parcela</h2>
-                    <p class="not-bank-description">
-                        A DOM FACILITA é uma forma simples de planejar sua compra.<br>
-                        Você faz depósitos via Pix até completar o valor do celular escolhido.<br>
-                        Sem juros, sem rendimento e sem taxas escondidas.
-                    </p>
-                    <ul class="not-bank-list">
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Preço definido no início</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Sem juros ou taxas escondidas</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Cancelamento com crédito para usar na loja</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Regras claras e transparentes</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                                <path d="M6 10L9 13L14 7" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Suporte Dom Store</span>
-                        </li>
-                    </ul>
+                    </div>
+                    <div class="hcf-text">
+                        <div class="hcf-title">Depósito confirmado</div>
+                        <div class="hcf-sub">R$ 250 via Pix · agora</div>
+                    </div>
                 </div>
-                <div class="not-bank-image">
-                    <!-- Ilustração 3D: Escudo DOM FACILITA + Cadeado -->
-                    <img src="assets/security-illustration.png" alt="DOM FACILITA - Segurança e Transparência" class="security-illustration-img">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TRUST BAR ==================== -->
+<div class="trust-bar">
+    <div class="container">
+        <div class="trust-bar-inner">
+            <div class="trust-item">
+                <div class="trust-item-icon">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <path d="M11 2L4 5V10C4 14.4 7.1 18.5 11 20C14.9 18.5 18 14.4 18 10V5L11 2Z" stroke="#FEDB19" stroke-width="1.8"/>
+                        <path d="M8 11L10 13L14 9" stroke="#FEDB19" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <div class="trust-item-title">100% seguro</div>
+                    <div class="trust-item-sub">Seus depósitos registrados</div>
+                </div>
+            </div>
+
+            <div class="trust-divider"></div>
+
+            <div class="trust-item">
+                <div class="trust-item-icon">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <rect x="4" y="8" width="14" height="10" rx="2" stroke="#FEDB19" stroke-width="1.8"/>
+                        <path d="M8 8V6C8 3.8 9.8 2 12 2" stroke="#FEDB19" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="12" cy="13" r="2" fill="#FEDB19"/>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <div class="trust-item-title">Preço travado</div>
+                    <div class="trust-item-sub">Não sobe enquanto você deposita</div>
+                </div>
+            </div>
+
+            <div class="trust-divider"></div>
+
+            <div class="trust-item">
+                <div class="trust-item-icon">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <path d="M11 3C7.7 3 5 5.7 5 9C5 12.3 11 19 11 19C11 19 17 12.3 17 9C17 5.7 14.3 3 11 3Z" stroke="#FEDB19" stroke-width="1.8"/>
+                        <circle cx="11" cy="9" r="2.5" stroke="#FEDB19" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <div class="trust-item-title">Deposite do Brasil todo</div>
+                    <div class="trust-item-sub">Pix de qualquer banco</div>
+                </div>
+            </div>
+
+            <div class="trust-divider"></div>
+
+            <div class="trust-item">
+                <div class="trust-item-icon">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <circle cx="11" cy="11" r="8" stroke="#FEDB19" stroke-width="1.8"/>
+                        <path d="M11 7V11L14 13" stroke="#FEDB19" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <div class="trust-item-title">Sem prazo fixo</div>
+                    <div class="trust-item-sub">Deposite quando e quanto quiser</div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <section class="cta">
-        <div class="container">
-            <h2 class="cta-title">
-                <span class="cta-title-yellow">Comece hoje.</span><br>
-                Pegue o seu no seu tempo.
-            </h2>
-            <p class="cta-description">
-                Crie sua conta gratuitamente e dê o primeiro passo para conquistar<br>
-                seu celular com o <strong>DOM STORE FACILITA</strong>.
-            </p>
-            <button class="btn btn-cta" onclick="window.location.href='criar-conta.html'">
-                Criar meu plano grátis
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M6 12L10 8L6 4" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            </button>
-            <p class="cta-timing">Leva menos de 1 minuto</p>
-        </div>
-    </section>
+<!-- ==================== COMO FUNCIONA ==================== -->
+<section class="how-it-works" id="como-funciona">
+    <div class="container">
+        <div class="section-eyebrow">Como funciona</div>
+        <h2 class="section-title">3 passos. Sem complicação.</h2>
+        <p class="section-subtitle">Chega de se endividar por um celular. Com a DOM Store você planeja do jeito certo.</p>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p class="footer-copyright">© 2026 DOM STORE FACILITA</p>
-                <div class="footer-links">
-                    <a href="termos.html">Termos</a>
-                    <span class="footer-separator">·</span>
-                    <a href="#">Privacidade</a>
-                    <span class="footer-separator">·</span>
-                    <a href="#" id="install-app-footer">Instalar app</a>
+        <div class="steps">
+            <!-- Passo 1 -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-icon">
+                    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                        <rect x="16" y="7" width="20" height="38" rx="3" stroke="#FEDB19" stroke-width="2.5"/>
+                        <rect x="16" y="7" width="20" height="38" rx="3" fill="#FEDB19" fill-opacity="0.08"/>
+                        <circle cx="26" cy="12" r="1.5" fill="#FEDB19"/>
+                        <line x1="21" y1="40" x2="31" y2="40" stroke="#FEDB19" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M22 24L24.5 27L30 21" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
                 </div>
+                <h3 class="step-title">Trave o preço do iPhone</h3>
+                <p class="step-description">Escolha o modelo que você quer no catálogo. O preço fica travado a partir daqui — não importa o que aconteça no mercado.</p>
+                <span class="step-tag">Catálogo com 20+ modelos</span>
+            </div>
+
+            <!-- Passo 2 -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-icon">
+                    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                        <rect x="8" y="8" width="14" height="14" rx="3" fill="#FEDB19" fill-opacity="0.8"/>
+                        <rect x="30" y="8" width="14" height="14" rx="3" fill="#FEDB19" fill-opacity="0.8"/>
+                        <rect x="8" y="30" width="14" height="14" rx="3" fill="#FEDB19" fill-opacity="0.8"/>
+                        <rect x="30" y="30" width="14" height="14" rx="3" fill="#FEDB19" fill-opacity="0.8"/>
+                        <path d="M22 22L30 30M30 22L22 30" stroke="#FEDB19" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="step-title">Deposite via Pix. R$ 50 já conta.</h3>
+                <p class="step-description">Sem valor mínimo alto, sem prazo. Deposite R$ 50 hoje, R$ 300 semana que vem — o que couber no bolso. Cada Pix vai direto para a sua meta.</p>
+                <span class="step-tag">Pix instantâneo</span>
+            </div>
+
+            <!-- Passo 3 -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-icon">
+                    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                        <circle cx="26" cy="22" r="13" fill="#FEDB19" fill-opacity="0.12" stroke="#FEDB19" stroke-width="2.5"/>
+                        <path d="M20 22L23.5 25.5L32 17" stroke="#FEDB19" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="16" y="36" width="20" height="10" rx="2" stroke="#FEDB19" stroke-width="2"/>
+                        <path d="M21 41L26 38.5L31 41" stroke="#FEDB19" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="step-title">Bateu a meta? iPhone na sua mão.</h3>
+                <p class="step-description">Quando você completar 100% do valor, a DOM Store fecha a compra e entrega seu iPhone. Sem filas, sem espera extra.</p>
+                <span class="step-tag">Entrega garantida</span>
             </div>
         </div>
-    </footer>
 
-        <script src="js/pwa-register.js"></script>
-    <script src="js/onboarding.js"></script>
-    <script src="js/main.js"></script>
+        <div class="benefits-strip">
+            <div class="benefit-item">
+                <div class="benefit-dot"></div>
+                Sem análise de crédito
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-dot"></div>
+                Sem juros ou IOF
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-dot"></div>
+                Cancelamento disponível
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-dot"></div>
+                Dashboard em tempo real
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== NOT BANK ==================== -->
+<section class="not-bank">
+    <div class="container">
+        <div class="not-bank-content">
+
+            <!-- Esquerda: texto -->
+            <div class="not-bank-text">
+                <div class="nb-eyebrow">Transparência total</div>
+                <h2 class="not-bank-title">
+                    Aqui você <span>planeja</span>,<br>não parcela.
+                </h2>
+                <p class="not-bank-description">
+                    A DOM Store não é banco, não é financeira. É um sistema simples de compra planejada — você deposita via Pix no seu tempo e retira o iPhone quando a meta fechar. Sem letra miúda.
+                </p>
+                <ul class="not-bank-list">
+                    <li>
+                        <div class="nb-check">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M2 6L5 9L10 3" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        Preço definido e travado desde o início
+                    </li>
+                    <li>
+                        <div class="nb-check">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M2 6L5 9L10 3" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        Zero juros, zero IOF, zero taxas escondidas
+                    </li>
+                    <li>
+                        <div class="nb-check">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M2 6L5 9L10 3" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        Você acompanha cada depósito no dashboard
+                    </li>
+                    <li>
+                        <div class="nb-check">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M2 6L5 9L10 3" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        Cancelamento disponível — regras claras, sem surpresa
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Direita: cards visuais -->
+            <div class="not-bank-visual">
+                <div class="nb-card">
+                    <div class="nb-card-icon yellow">💰</div>
+                    <div>
+                        <div class="nb-card-title">Sem juros, nunca</div>
+                        <div class="nb-card-sub">O que você deposita é o que vai para a meta. Sempre.</div>
+                    </div>
+                </div>
+                <div class="nb-card">
+                    <div class="nb-card-icon green">📊</div>
+                    <div>
+                        <div class="nb-card-title">Dashboard em tempo real</div>
+                        <div class="nb-card-sub">Veja seu progresso, histórico e quanto falta.</div>
+                    </div>
+                </div>
+                <div class="nb-card">
+                    <div class="nb-card-icon blue">🔒</div>
+                    <div>
+                        <div class="nb-card-title">Sem análise de crédito</div>
+                        <div class="nb-card-sub">Não importa seu score. Qualquer pessoa pode começar.</div>
+                    </div>
+                </div>
+                <div class="nb-card">
+                    <div class="nb-card-icon yellow">🏃</div>
+                    <div>
+                        <div class="nb-card-title">No seu ritmo, sem pressão</div>
+                        <div class="nb-card-sub">Sem parcela vencendo, sem cobrança, sem estresse.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="faq" id="duvidas">
+    <div class="container">
+        <div class="section-eyebrow">Dúvidas frequentes</div>
+        <h2 class="section-title">Antes de começar,<br>a gente responde.</h2>
+
+        <div class="faq-grid">
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Isso é um banco ou financeira?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    Não. A DOM Store é um sistema de <strong>compra planejada</strong>. Você deposita via Pix e acumula o valor para comprar o iPhone que escolheu. Não é investimento, não é conta bancária, não é crédito.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    E se eu quiser cancelar?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    Você pode cancelar quando quiser. Devolvemos <strong>70% do valor acumulado</strong> em até 30 dias úteis. A taxa de cancelamento (30%) existe para cobrir os custos operacionais — e está nos termos desde o início.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Meu dinheiro está seguro?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    Sim. Cada depósito é registrado no sistema e aparece no seu dashboard em tempo real. Você consegue ver o histórico completo de tudo que entrou.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Tem valor mínimo para depositar?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    O valor mínimo por depósito é de <strong>R$ 5,00</strong>. Sem valor máximo. Deposite R$ 50, R$ 200 ou R$ 1.000 — o que couber no seu bolso, quando der.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    O preço do iPhone pode mudar?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <strong>Não.</strong> Quando você escolhe o modelo e inicia a meta, o preço fica travado. Mesmo que o iPhone suba de preço no mercado, você paga o valor que estava quando começou.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Quanto tempo tenho para completar a meta?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    Não tem prazo. Você deposita no seu tempo, sem pressão. Em 3 meses ou em 1 ano — o que funcionar melhor para você.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CTA FINAL ==================== -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-eyebrow">Pronto para começar?</div>
+        <h2 class="cta-title">
+            Chega de esperar.<br>
+            <span>Começa hoje.</span>
+        </h2>
+        <p class="cta-description">
+            Crie sua conta em menos de 1 minuto e escolha o iPhone<br>que vai ser seu. Sem cartão, sem burocracia.
+        </p>
+        <button class="btn-cta" onclick="window.location.href='criar-conta.html'">
+            Quero meu iPhone agora
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 12L10 8L6 4" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+        </button>
+        <p class="cta-microcopy">Cadastro gratuito · Sem análise de crédito · Cancele quando quiser</p>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">DOM<span>Store</span></div>
+            <div class="footer-links">
+                <a href="termos.html">Termos de uso</a>
+                <a href="#">Privacidade</a>
+                <a href="#duvidas">FAQ</a>
+            </div>
+            <div class="footer-copy">© 2026 DOM Store</div>
+        </div>
+    </div>
+</footer>
+
+<!-- ==================== STICKY CTA MOBILE ==================== -->
+<div class="sticky-cta" id="sticky-cta">
+    <button onclick="window.location.href='criar-conta.html'">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <rect x="5" y="2" width="8" height="14" rx="1.5" stroke="#FEDB19" stroke-width="1.5"/>
+            <circle cx="9" cy="13" r="1" fill="#FEDB19"/>
+        </svg>
+        Quero meu iPhone agora
+    </button>
+</div>
+
+<script src="js/pwa-register.js"></script>
+<script>
+    // Menu mobile
+    function abrirMenu() {
+        document.getElementById('mobile-nav').classList.add('aberto');
+        document.body.style.overflow = 'hidden';
+    }
+    function fecharMenu() {
+        document.getElementById('mobile-nav').classList.remove('aberto');
+        document.body.style.overflow = '';
+    }
+
+    // FAQ toggle
+    function toggleFaq(el) {
+        const eraAberto = el.classList.contains('aberto');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('aberto'));
+        if (!eraAberto) el.classList.add('aberto');
+    }
+
+    // Sticky CTA: some quando o hero CTA está visível
+    const stickyCta = document.getElementById('sticky-cta');
+    const heroCta = document.querySelector('.btn-hero-primary');
+
+    if (heroCta && stickyCta) {
+        const observer = new IntersectionObserver(([entry]) => {
+            stickyCta.style.display = entry.isIntersecting ? 'none' : 'block';
+        }, { threshold: 0.1 });
+        observer.observe(heroCta);
+    }
+
+    // Smooth scroll para links âncora
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const id = a.getAttribute('href').slice(1);
+            const el = document.getElementById(id);
+            if (el) {
+                e.preventDefault();
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Conquiste seu iPhone dos sonhos com pagamentos flexíveis via Pix - DOM STORE FACILITA">
-    
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#FEDB19">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="DOM STORE FACILITA">
-    
+
     <!-- Manifest -->
     <link rel="manifest" href="./manifest.json">
-    
+
     <!-- Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-dom-store-v1.png">
     <link rel="apple-touch-icon" href="./assets/logo-dom-store-v1.png">
@@ -40,10 +40,10 @@
             <form id="form-login" class="auth-form">
                 <div class="input-group">
                     <label for="email" class="input-label">E-mail</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
                         class="input"
                         placeholder="seu@email.com"
                         required
@@ -53,10 +53,10 @@
                 <div class="input-group">
                     <label for="senha" class="input-label">Senha</label>
                     <div class="password-input">
-                        <input 
-                            type="password" 
-                            id="senha" 
-                            name="senha" 
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
                             class="input"
                             placeholder="••••••••"
                             required
@@ -67,19 +67,6 @@
                                 <path d="M10 3C5.58172 3 2 10 2 10C2 10 5.58172 17 10 17C14.4183 17 18 10 18 10C18 10 14.4183 3 10 3Z" stroke="#666" stroke-width="1.5"/>
                             </svg>
                         </button>
-                    </div>
-                </div>
-
-                <div class="alert alert-info">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2"/>
-                        <path d="M10 6V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        <circle cx="10" cy="13" r="0.5" fill="currentColor"/>
-                    </svg>
-                    <div style="font-size: 12px;">
-                        <strong>Usuários de teste:</strong><br>
-                        Cliente: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ea9e8f999e8faa8e8587999e85988fc4898587">[email&#160;protected]</a> / 12345678<br>
-                        Admin: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9dfcf9f0f4f3ddf9f2f0eee9f2eff8b3fef2f0">[email&#160;protected]</a> / admin123
                     </div>
                 </div>
 
@@ -94,51 +81,11 @@
         </div>
     </div>
 
-            <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="./js/pwa-register.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/pwa-register.js"></script>
+    <script src="js/supabase-client.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/login.js"></script>
-    <script>
-        const form = document.getElementById('form-login');
-        const btnLogin = document.getElementById('btn-login');
-        const inputEmail = document.getElementById('email');
-        const inputSenha = document.getElementById('senha');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = inputEmail.value.trim();
-            const senha = inputSenha.value;
-            
-            if (!email || !senha) {
-                mostrarToast('Preencha todos os campos', 'warning');
-                return;
-            }
-            
-            btnLogin.disabled = true;
-            btnLogin.innerHTML = '<div class="loading-spinner"></div> Entrando...';
-            
-            setTimeout(() => {
-                const resultado = fazerLogin(email, senha);
-                
-                if (resultado.sucesso) {
-                    mostrarToast('Login realizado com sucesso!', 'success');
-                    
-                    setTimeout(() => {
-                        const objetivoAtivo = obterLocal('objetivoAtivo');
-                        if (objetivoAtivo && !objetivoAtivo.cancelado) {
-                            window.location.href = 'dashboard.html';
-                        } else {
-                            window.location.href = 'escolher-iphone.html';
-                        }
-                    }, 1000);
-                } else {
-                    mostrarToast(resultado.erro, 'error');
-                    btnLogin.disabled = false;
-                    btnLogin.innerHTML = 'Entrar';
-                }
-            }, 500);
-        });
-
-        // Se já estiver autenticado, redireciona
-  
+</body>
+</html>

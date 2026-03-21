@@ -1,70 +1,104 @@
 /**
- * DOM Store - Sistema de Autenticação
- * 
- * Gerencia login, logout e controle de acesso
+ * DOM Store - Sistema de Autenticação (Supabase)
  */
 
-// Usuários do sistema
-const USUARIOS = {
-    teste: {
-        nome: 'Usuário Teste',
-        email: 'teste@domstore.com',
-        senha: '12345678',
-        cpf: '12345678900',
-        telefone: '11987654321',
-        tipo: 'cliente',
-        estado: 'SP',
-        cidade: 'São Paulo'
-    },
-    admin: {
-        nome: 'Administrador',
-        email: 'admin@domstore.com',
-        senha: 'admin123',
-        cpf: '00000000000',
-        telefone: '11999999999',
-        tipo: 'admin',
-        estado: 'SP',
-        cidade: 'São Paulo'
+// Sincroniza sessão Supabase → localStorage ao inicializar
+(async function inicializarSessao() {
+    try {
+        const { data: { session } } = await _supabase.auth.getSession();
+        if (session) {
+            const { data: profile } = await _supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+
+            if (profile) {
+                salvarLocal('usuario', {
+                    id: session.user.id,
+                    nome: profile.nome,
+                    email: session.user.email,
+                    cpf: profile.cpf,
+                    telefone: profile.telefone,
+                    estado: profile.estado,
+                    cidade: profile.cidade,
+                    tipo: profile.tipo
+                });
+                salvarLocal('autenticado', true);
+            }
+        } else {
+            removerLocal('usuario');
+            removerLocal('autenticado');
+        }
+    } catch (err) {
+        console.warn('Erro ao inicializar sessão:', err);
     }
-};
+})();
 
 /**
- * Faz login do usuário
+ * Faz login do usuário via Supabase Auth
  */
-function fazerLogin(email, senha) {
-    // Busca usuário
-    const usuario = Object.values(USUARIOS).find(u => u.email === email);
-    
-    if (!usuario) {
-        return { sucesso: false, erro: 'Usuário não encontrado' };
+async function fazerLogin(email, senha) {
+    const { data, error } = await _supabase.auth.signInWithPassword({
+        email,
+        password: senha
+    });
+
+    if (error) {
+        const msg = error.message.includes('Invalid') ? 'Email ou senha incorretos' : error.message;
+        return { sucesso: false, erro: msg };
     }
-    
-    if (usuario.senha !== senha) {
-        return { sucesso: false, erro: 'Senha incorreta' };
+
+    let { data: profile } = await _supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', data.user.id)
+        .single();
+
+    // Se não tem perfil mas tem dados pendentes (cadastro com email confirmation)
+    if (!profile) {
+        const pendingData = obterLocal('_pendingProfileData');
+        if (pendingData && pendingData.email === data.user.email) {
+            await _supabase.from('profiles').insert({
+                id: data.user.id,
+                nome: pendingData.nome,
+                email: pendingData.email,
+                cpf: pendingData.cpf,
+                telefone: pendingData.telefone,
+                estado: pendingData.estado,
+                cidade: pendingData.cidade,
+                tipo: 'cliente'
+            });
+            removerLocal('_pendingProfileData');
+
+            const { data: newProfile } = await _supabase
+                .from('profiles').select('*').eq('id', data.user.id).single();
+            profile = newProfile;
+        }
     }
-    
-    // Salva sessão
+
     const dadosSessao = {
-        nome: usuario.nome,
-        email: usuario.email,
-        cpf: usuario.cpf,
-        telefone: usuario.telefone,
-        tipo: usuario.tipo,
-        estado: usuario.estado,
-        cidade: usuario.cidade,
-        dataLogin: new Date().toISOString()
+        id: data.user.id,
+        nome: profile?.nome || data.user.email,
+        email: data.user.email,
+        cpf: profile?.cpf,
+        telefone: profile?.telefone,
+        estado: profile?.estado,
+        cidade: profile?.cidade,
+        tipo: profile?.tipo || 'cliente'
     };
-    
+
     salvarLocal('usuario', dadosSessao);
     salvarLocal('autenticado', true);
-    
+
     return { sucesso: true, usuario: dadosSessao };
 }
 
 /**
  * Faz logout
  */
-function fazerLogout() {
+async function fazerLogout() {
+    await _supabase.auth.signOut();
     removerLocal('usuario');
     removerLocal('autenticado');
     removerLocal('objetivoAtivo');
@@ -72,7 +106,7 @@ function fazerLogout() {
 }
 
 /**
- * Verifica se está autenticado
+ * Verifica se está autenticado (sync - usa localStorage)
  */
 function estaAutenticado() {
     return obterLocal('autenticado') === true;
@@ -93,14 +127,10 @@ function ehAdmin() {
     return usuario && usuario.tipo === 'admin';
 }
 
-// Exporta funções
 window.fazerLogin = fazerLogin;
 window.fazerLogout = fazerLogout;
 window.estaAutenticado = estaAutenticado;
 window.obterUsuarioLogado = obterUsuarioLogado;
 window.ehAdmin = ehAdmin;
 
-console.log('✅ Sistema de autenticação carregado');
-console.log('👤 Usuários disponíveis:');
-console.log('   Cliente: teste@domstore.com / 12345678');
-console.log('   Admin: admin@domstore.com / admin123');
+console.log('✅ auth.js carregado (Supabase)');

@@ -17,16 +17,56 @@ const historicoLista = document.getElementById('historico-lista');
 const mensagemIncentivo = document.getElementById('mensagem-incentivo');
 
 // Carregar dados
-function carregarDados() {
+async function carregarDados() {
     const usuario = obterLocal('usuario');
-    const objetivo = obterLocal('objetivoAtivo');
-    
-    if (!usuario || !objetivo) {
+    if (!usuario) {
         window.location.href = 'index.html';
         return;
     }
-    
-    // Se objetivo foi cancelado, redireciona
+
+    let objetivo = obterLocal('objetivoAtivo');
+
+    // Busca dados atualizados do Supabase
+    try {
+        const { data: jornada } = await _supabase
+            .from('jornadas')
+            .select(`*, depositos(*)`)
+            .eq('user_id', usuario.id)
+            .eq('status', 'ativa')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+        if (jornada) {
+            objetivo = {
+                id: jornada.id,
+                nome: jornada.iphone_nome,
+                modelo: jornada.iphone_modelo,
+                armazenamento: jornada.iphone_armazenamento,
+                estado: jornada.iphone_estado,
+                valorTotal: parseFloat(jornada.valor_total),
+                valorAcumulado: parseFloat(jornada.valor_acumulado),
+                porcentagem: parseFloat(jornada.porcentagem),
+                depositos: (jornada.depositos || []).map(d => ({
+                    valor: parseFloat(d.valor),
+                    data: d.created_at,
+                    tipo: d.tipo,
+                    status: d.status
+                })),
+                imagem: jornada.iphone_imagem,
+                cancelado: jornada.status === 'cancelada'
+            };
+            salvarLocal('objetivoAtivo', objetivo);
+        }
+    } catch (err) {
+        console.warn('Usando dados locais:', err);
+    }
+
+    if (!objetivo) {
+        window.location.href = 'index.html';
+        return;
+    }
+
     if (objetivo.cancelado) {
         mostrarToast('Este objetivo foi cancelado', 'info');
         setTimeout(() => {
@@ -35,39 +75,33 @@ function carregarDados() {
         }, 2000);
         return;
     }
-    
+
     // Nome do usuário
     userName.textContent = usuario.nome.split(' ')[0];
-    
+
     // Dados do objetivo
     objetivoNome.textContent = objetivo.nome;
     objetivoSpecs.textContent = `${objetivo.armazenamento} • Seminovo Premium`;
     objetivoValor.textContent = formatarMoeda(objetivo.valorTotal);
-    
-    // Valores e progresso
+
     const acumulado = objetivo.valorAcumulado || 0;
     const porcentagem = Math.min((acumulado / objetivo.valorTotal) * 100, 100);
     const faltante = Math.max(objetivo.valorTotal - acumulado, 0);
-    
+
     valorAcumulado.textContent = formatarMoeda(acumulado);
     valorMeta.textContent = formatarMoeda(objetivo.valorTotal);
     valorFaltante.textContent = formatarMoeda(faltante);
     progressoPorcentagem.textContent = `${Math.floor(porcentagem)}%`;
-    
-    // Atualiza círculo de progresso
+
     const circumference = 2 * Math.PI * 70;
     const offset = circumference - (porcentagem / 100) * circumference;
     progressCircle.style.strokeDashoffset = offset;
-    
-    // Atualiza marcos
+
     document.querySelectorAll('.marco').forEach(marco => {
         const marcoPorc = parseInt(marco.dataset.porcentagem);
-        if (porcentagem >= marcoPorc) {
-            marco.classList.add('ativo');
-        }
+        if (porcentagem >= marcoPorc) marco.classList.add('ativo');
     });
-    
-    // Mensagem de incentivo
+
     if (porcentagem < 10) {
         mensagemIncentivo.innerHTML = 'Próximo marco: <strong>Ótimo começo!</strong> (10%)';
     } else if (porcentagem < 25) {
@@ -81,28 +115,35 @@ function carregarDados() {
     } else {
         mensagemIncentivo.innerHTML = '<strong>🎉 Parabéns! Você atingiu 100%!</strong>';
     }
-    
-    // Histórico
+
     const depositos = objetivo.depositos || [];
-    totalDepositos.textContent = `${depositos.length} depósito${depositos.length !== 1 ? 's' : ''}`;
-    
+    const depositosAprovados = depositos.filter(d => d.status === 'aprovado' || d.status === 'confirmado');
+    totalDepositos.textContent = `${depositosAprovados.length} depósito${depositosAprovados.length !== 1 ? 's' : ''}`;
+
     if (depositos.length > 0) {
         historicoLista.innerHTML = '';
-        depositos.reverse().forEach(dep => {
+        [...depositos].reverse().forEach(dep => {
+            const isPendente = dep.status === 'pendente';
+            const isRejeitado = dep.status === 'rejeitado';
+
+            const badgeColor = isPendente ? '#FF9800' : isRejeitado ? '#F44336' : '#00BFA5';
+            const badgeText = isPendente ? 'Pendente' : isRejeitado ? 'Rejeitado' : 'Aprovado';
+            const iconColor = isPendente ? '#FF9800' : isRejeitado ? '#F44336' : '#FEDB19';
+
             const item = document.createElement('div');
             item.className = 'historico-item';
             item.innerHTML = `
                 <div class="historico-icon">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <circle cx="10" cy="10" r="8" stroke="#FEDB19" stroke-width="2"/>
-                        <path d="M6 10H14M10 6V14" stroke="#FEDB19" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="10" cy="10" r="8" stroke="${iconColor}" stroke-width="2"/>
+                        <path d="M6 10H14M10 6V14" stroke="${iconColor}" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <div class="historico-info">
-                    <div class="historico-titulo">Depósito Pix</div>
+                    <div class="historico-titulo">Depósito Pix <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:${badgeColor}20;color:${badgeColor}">${badgeText}</span></div>
                     <div class="historico-data">${formatarDataHora(dep.data)}</div>
                 </div>
-                <div class="historico-valor">+${formatarMoeda(dep.valor)}</div>
+                <div class="historico-valor" style="color:${isPendente ? '#FF9800' : isRejeitado ? '#F44336' : 'inherit'}">+${formatarMoeda(dep.valor)}</div>
             `;
             historicoLista.appendChild(item);
         });
@@ -161,10 +202,10 @@ function fecharModalCancelamento() {
     modal.classList.add('hidden');
 }
 
-function confirmarCancelamento(valorAcumulado, taxa, valorReceber) {
+async function confirmarCancelamento(valorAcumulado, taxa, valorReceber) {
     const objetivo = obterLocal('objetivoAtivo');
     if (!objetivo) return;
-    
+
     // Se não tem valor acumulado, apenas remove o objetivo
     if (valorAcumulado === 0) {
         removerLocal('objetivoAtivo');
@@ -175,7 +216,7 @@ function confirmarCancelamento(valorAcumulado, taxa, valorReceber) {
         }, 1000);
         return;
     }
-    
+
     // Se tem valor, marca como cancelado e salva dados do reembolso
     objetivo.cancelado = true;
     objetivo.dataCancelamento = new Date().toISOString();
@@ -184,17 +225,28 @@ function confirmarCancelamento(valorAcumulado, taxa, valorReceber) {
     objetivo.valorReembolso = valorReceber;
     objetivo.statusReembolso = 'pendente';
     objetivo.prazoReembolso = '30 dias úteis';
-    
+
+    // Salva cancelamento no Supabase
+    await _supabase
+        .from('jornadas')
+        .update({
+            status: 'cancelada',
+            taxa_cancelamento: taxa,
+            valor_reembolso: valorReceber,
+            updated_at: new Date().toISOString()
+        })
+        .eq('id', objetivo.id);
+
     salvarLocal('objetivoAtivo', objetivo);
-    
+
     fecharModalCancelamento();
-    
-    const mensagem = valorReceber > 0 
+
+    const mensagem = valorReceber > 0
         ? `Objetivo cancelado. Reembolso de ${formatarMoeda(valorReceber)} em até 30 dias úteis.`
         : 'Objetivo cancelado com sucesso';
-    
+
     mostrarToast(mensagem, 'info', 5000);
-    
+
     setTimeout(() => {
         window.location.href = 'escolher-iphone.html';
     }, 2000);
@@ -202,8 +254,7 @@ function confirmarCancelamento(valorAcumulado, taxa, valorReceber) {
 
 function sair() {
     if (confirm('Deseja sair da sua conta?')) {
-        limparLocal();
-        window.location.href = 'index.html';
+        fazerLogout();
     }
 }
 

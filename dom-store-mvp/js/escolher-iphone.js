@@ -251,9 +251,66 @@ function renderizarIphones() {
 }
 
 // Selecionar iPhone
+let _iphoneSelecionado = null;
+
 function selecionarIphone(iphone) {
-    const objetivo = {
-        id: Date.now(),
+    _iphoneSelecionado = iphone;
+    document.getElementById('modal-iphone-title').textContent = `${iphone.nome} ${iphone.armazenamento}`;
+    document.getElementById('modal-iphone-valor').textContent = formatarMoeda(iphone.valorTotal);
+    document.getElementById('modal-confirmar').classList.remove('hidden');
+}
+
+function fecharModal() {
+    document.getElementById('modal-confirmar').classList.add('hidden');
+    _iphoneSelecionado = null;
+}
+
+async function confirmarEscolha() {
+    if (!_iphoneSelecionado) return;
+    const iphone = _iphoneSelecionado;
+
+    const usuario = obterUsuarioLogado();
+    if (!usuario) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const btnConfirmar = document.querySelector('#modal-confirmar .btn-primary');
+    if (btnConfirmar) {
+        btnConfirmar.disabled = true;
+        btnConfirmar.textContent = 'Salvando...';
+    }
+
+    const { data: jornada, error } = await _supabase
+        .from('jornadas')
+        .insert({
+            user_id: usuario.id,
+            iphone_id: iphone.id,
+            iphone_nome: iphone.nome,
+            iphone_modelo: iphone.modelo,
+            iphone_armazenamento: iphone.armazenamento,
+            iphone_estado: iphone.estado,
+            iphone_imagem: iphone.imagem,
+            valor_total: iphone.valorTotal,
+            valor_acumulado: 0,
+            porcentagem: 0,
+            status: 'ativa'
+        })
+        .select()
+        .single();
+
+    if (error) {
+        console.error('Erro ao salvar jornada:', error);
+        mostrarToast('Erro ao salvar objetivo. Tente novamente.', 'error');
+        if (btnConfirmar) {
+            btnConfirmar.disabled = false;
+            btnConfirmar.textContent = 'Confirmar e começar';
+        }
+        return;
+    }
+
+    salvarLocal('objetivoAtivo', {
+        id: jornada.id,
         iphoneId: iphone.id,
         nome: iphone.nome,
         modelo: iphone.modelo,
@@ -263,13 +320,15 @@ function selecionarIphone(iphone) {
         valorAcumulado: 0,
         porcentagem: 0,
         depositos: [],
-        dataCriacao: new Date().toISOString(),
+        dataCriacao: jornada.created_at,
         imagem: iphone.imagem
-    };
-    
-    salvarLocal('objetivoAtivo', objetivo);
+    });
+
     window.location.href = 'aceitar-termos.html';
 }
+
+window.fecharModal = fecharModal;
+window.confirmarEscolha = confirmarEscolha;
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {

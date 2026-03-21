@@ -1,8 +1,5 @@
 /**
- * DOM Store - Criar Conta
- * 
- * JavaScript para página de criação de conta
- * Gerencia: validações, máscaras, submit do formulário
+ * DOM Store - Criar Conta (Supabase)
  */
 
 // ========== ELEMENTOS DO DOM ==========
@@ -19,36 +16,22 @@ const checkboxTermos = document.getElementById('aceitar-termos');
 const btnSubmit = document.getElementById('btn-criar-conta');
 const cpfError = document.getElementById('cpf-error');
 
-// ========== MÁSCARAS EM TEMPO REAL ==========
-
-/**
- * Aplica máscara de CPF enquanto usuário digita
- */
+// ========== MÁSCARAS ==========
 inputCPF.addEventListener('input', function(e) {
     e.target.value = mascaraCPF(e.target.value);
-    
-    // Remove erro visual quando usuário começa a digitar novamente
     if (inputCPF.classList.contains('error')) {
         inputCPF.classList.remove('error');
         cpfError.classList.add('hidden');
     }
 });
 
-/**
- * Aplica máscara de telefone enquanto usuário digita
- */
 inputTelefone.addEventListener('input', function(e) {
     e.target.value = mascaraTelefone(e.target.value);
 });
 
 // ========== VALIDAÇÕES ==========
-
-/**
- * Valida CPF ao sair do campo
- */
 inputCPF.addEventListener('blur', function() {
     const cpf = inputCPF.value;
-    
     if (cpf && !validarCPF(cpf)) {
         inputCPF.classList.add('error');
         cpfError.classList.remove('hidden');
@@ -58,14 +41,8 @@ inputCPF.addEventListener('blur', function() {
     }
 });
 
-/**
- * Valida se senhas coincidem
- */
 inputConfirmarSenha.addEventListener('blur', function() {
-    const senha = inputSenha.value;
-    const confirmarSenha = inputConfirmarSenha.value;
-    
-    if (confirmarSenha && senha !== confirmarSenha) {
+    if (inputConfirmarSenha.value && inputSenha.value !== inputConfirmarSenha.value) {
         inputConfirmarSenha.classList.add('error');
         mostrarToast('As senhas não coincidem', 'error');
     } else {
@@ -73,101 +50,126 @@ inputConfirmarSenha.addEventListener('blur', function() {
     }
 });
 
-// ========== SUBMIT DO FORMULÁRIO ==========
-
-/**
- * Processa submissão do formulário
- */
+// ========== SUBMIT ==========
 form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
-    // Validações finais
-    if (!validarFormulario()) {
-        return;
-    }
-    
-    // Mostra loading no botão
+
+    if (!validarFormulario()) return;
+
     btnSubmit.disabled = true;
     btnSubmit.innerHTML = '<div class="loading-spinner"></div> Criando conta...';
-    
-    // Coleta dados do formulário
+
     const dados = {
         nome: inputNome.value.trim(),
         email: inputEmail.value.trim(),
-        cpf: inputCPF.value.replace(/\D/g, ''), // Remove formatação
-        telefone: inputTelefone.value.replace(/\D/g, ''), // Remove formatação
+        cpf: inputCPF.value.replace(/\D/g, ''),
+        telefone: inputTelefone.value.replace(/\D/g, ''),
         estado: inputEstado.value,
         cidade: inputCidade.value.trim(),
-        senha: inputSenha.value,
-        aceitouTermos: checkboxTermos.checked,
-        dataCriacao: new Date().toISOString()
+        senha: inputSenha.value
     };
-    
+
     try {
-        // Simula chamada de API (substituir por chamada real)
-        await simularCriacaoConta(dados);
-        
-        // Salva dados do usuário no localStorage (apenas para MVP)
-        salvarLocal('usuario', {
-            nome: dados.nome,
+        // 1. Cadastra no Supabase Auth
+        const { data: authData, error: authError } = await _supabase.auth.signUp({
             email: dados.email,
-            cpf: dados.cpf,
-            telefone: dados.telefone,
-            estado: dados.estado,
-            cidade: dados.cidade,
-            dataCriacao: dados.dataCriacao
+            password: dados.senha,
+            options: {
+                data: {
+                    nome: dados.nome,
+                    cpf: dados.cpf,
+                    telefone: dados.telefone,
+                    estado: dados.estado,
+                    cidade: dados.cidade
+                }
+            }
         });
-        
-        // Marca como autenticado
-        salvarLocal('autenticado', true);
-        
-        // Sucesso
-        mostrarToast('Conta criada com sucesso!', 'success');
-        
-        // Aguarda 1 segundo e redireciona para escolha de iPhone
-        setTimeout(() => {
-            window.location.href = 'escolher-iphone.html';
-        }, 1000);
-        
+
+        if (authError) {
+            const msg = authError.message.includes('already registered')
+                ? 'Este email já está cadastrado'
+                : authError.message;
+            throw new Error(msg);
+        }
+
+        // Se retornou sessão (email confirmation desativado), salva tudo agora
+        if (authData.session) {
+            // 2. Salva perfil na tabela profiles
+            const { error: profileError } = await _supabase
+                .from('profiles')
+                .insert({
+                    id: authData.user.id,
+                    nome: dados.nome,
+                    email: dados.email,
+                    cpf: dados.cpf,
+                    telefone: dados.telefone,
+                    estado: dados.estado,
+                    cidade: dados.cidade,
+                    tipo: 'cliente'
+                });
+
+            if (profileError && !profileError.message.includes('duplicate')) {
+                throw new Error(profileError.message);
+            }
+
+            // 3. Salva sessão local
+            salvarLocal('usuario', {
+                id: authData.user.id,
+                nome: dados.nome,
+                email: dados.email,
+                cpf: dados.cpf,
+                telefone: dados.telefone,
+                estado: dados.estado,
+                cidade: dados.cidade,
+                tipo: 'cliente',
+                // guarda metadados para criar perfil no login se necessário
+                _pendingProfile: false
+            });
+            salvarLocal('autenticado', true);
+
+            mostrarToast('Conta criada com sucesso!', 'success');
+            setTimeout(() => { window.location.href = 'escolher-iphone.html'; }, 1000);
+        } else {
+            // Email confirmation necessária — salva metadados pendentes e avisa
+            salvarLocal('_pendingProfileData', {
+                nome: dados.nome,
+                email: dados.email,
+                cpf: dados.cpf,
+                telefone: dados.telefone,
+                estado: dados.estado,
+                cidade: dados.cidade
+            });
+            mostrarToast('Conta criada! Verifique seu email para confirmar o cadastro.', 'success', 6000);
+            setTimeout(() => { window.location.href = 'login.html'; }, 3000);
+        }
+
     } catch (error) {
         console.error('Erro ao criar conta:', error);
-        mostrarToast('Erro ao criar conta. Tente novamente.', 'error');
-        
-        // Restaura botão
+        mostrarToast(error.message || 'Erro ao criar conta. Tente novamente.', 'error');
         btnSubmit.disabled = false;
         btnSubmit.innerHTML = 'Continuar';
     }
 });
 
-/**
- * Valida todos os campos do formulário
- * @returns {boolean} - true se válido, false se inválido
- */
+// ========== VALIDAÇÃO DO FORMULÁRIO ==========
 function validarFormulario() {
     let valido = true;
     let primeiroErro = null;
-    
-    // Valida nome
+
     if (!inputNome.value.trim()) {
         inputNome.classList.add('error');
         mostrarToast('Por favor, preencha seu nome completo', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputNome;
-    } else {
-        inputNome.classList.remove('error');
-    }
-    
-    // Valida email
+    } else { inputNome.classList.remove('error'); }
+
     if (!validarEmail(inputEmail.value)) {
         inputEmail.classList.add('error');
         mostrarToast('Por favor, insira um email válido', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputEmail;
-    } else {
-        inputEmail.classList.remove('error');
-    }
-    
-    // Valida CPF
+    } else { inputEmail.classList.remove('error'); }
+
     if (!validarCPF(inputCPF.value)) {
         inputCPF.classList.add('error');
         cpfError.classList.remove('hidden');
@@ -177,112 +179,55 @@ function validarFormulario() {
         inputCPF.classList.remove('error');
         cpfError.classList.add('hidden');
     }
-    
-    // Valida telefone
+
     if (!validarTelefone(inputTelefone.value)) {
         inputTelefone.classList.add('error');
         mostrarToast('Por favor, insira um telefone válido', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputTelefone;
-    } else {
-        inputTelefone.classList.remove('error');
-    }
-    
-    // Valida estado
+    } else { inputTelefone.classList.remove('error'); }
+
     if (!inputEstado.value) {
         inputEstado.classList.add('error');
         mostrarToast('Por favor, selecione seu estado', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputEstado;
-    } else {
-        inputEstado.classList.remove('error');
-    }
-    
-    // Valida cidade
+    } else { inputEstado.classList.remove('error'); }
+
     if (!inputCidade.value.trim()) {
         inputCidade.classList.add('error');
         mostrarToast('Por favor, insira sua cidade', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputCidade;
-    } else {
-        inputCidade.classList.remove('error');
-    }
-    
-    // Valida senha
+    } else { inputCidade.classList.remove('error'); }
+
     if (inputSenha.value.length < 8) {
         inputSenha.classList.add('error');
         mostrarToast('A senha deve ter no mínimo 8 caracteres', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputSenha;
-    } else {
-        inputSenha.classList.remove('error');
-    }
-    
-    // Valida confirmação de senha
+    } else { inputSenha.classList.remove('error'); }
+
     if (inputSenha.value !== inputConfirmarSenha.value) {
         inputConfirmarSenha.classList.add('error');
         mostrarToast('As senhas não coincidem', 'error');
         valido = false;
         if (!primeiroErro) primeiroErro = inputConfirmarSenha;
-    } else {
-        inputConfirmarSenha.classList.remove('error');
-    }
-    
-    // Valida checkbox de termos
+    } else { inputConfirmarSenha.classList.remove('error'); }
+
     if (!checkboxTermos.checked) {
         mostrarToast('Você precisa aceitar os Termos de Uso', 'warning');
         valido = false;
     }
-    
-    // Foca no primeiro campo com erro
-    if (!valido && primeiroErro) {
-        primeiroErro.focus();
-    }
-    
+
+    if (!valido && primeiroErro) primeiroErro.focus();
     return valido;
 }
 
-/**
- * Simula criação de conta (substituir por API real)
- * @param {Object} dados - Dados do usuário
- * @returns {Promise} - Promise que resolve após 1 segundo
- */
-function simularCriacaoConta(dados) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            // Simula sucesso (95% de chance)
-            if (Math.random() > 0.05) {
-                console.log('Conta criada:', dados);
-                resolve(dados);
-            } else {
-                // Simula erro (5% de chance)
-                reject(new Error('Erro ao criar conta'));
-            }
-        }, 1500);
-    });
+// Redireciona se já autenticado
+if (obterLocal('autenticado')) {
+    const objetivoAtivo = obterLocal('objetivoAtivo');
+    window.location.href = objetivoAtivo ? 'dashboard.html' : 'escolher-iphone.html';
 }
 
-// ========== INICIALIZAÇÃO ==========
-
-/**
- * Verifica se usuário já está autenticado
- */
-function verificarAutenticacao() {
-    const autenticado = obterLocal('autenticado');
-    
-    if (autenticado) {
-        // Se já está autenticado, redireciona para dashboard
-        const objetivoAtivo = obterLocal('objetivoAtivo');
-        if (objetivoAtivo) {
-            window.location.href = 'dashboard.html';
-        } else {
-            window.location.href = 'escolher-iphone.html';
-        }
-    }
-}
-
-// Verifica autenticação ao carregar página
-verificarAutenticacao();
-
-// ========== CONSOLE LOG ==========
-console.log('✅ criar-conta.js carregado');
+console.log('✅ criar-conta.js carregado (Supabase)');

@@ -91,32 +91,57 @@ function copiarChavePix() {
     });
 }
 
-function confirmarPagamento() {
+async function confirmarPagamento() {
     const objetivo = obterLocal('objetivoAtivo');
     if (!objetivo) return;
-    
-    // Adiciona depósito
-    const deposito = {
+
+    const { data: { user } } = await _supabase.auth.getUser();
+    if (!user) {
+        mostrarToast('Sessão expirada. Faça login novamente.', 'error');
+        setTimeout(() => window.location.href = 'login.html', 2000);
+        return;
+    }
+
+    const btnPago = document.querySelector('[onclick="confirmarPagamento()"]');
+    if (btnPago) {
+        btnPago.disabled = true;
+        btnPago.textContent = 'Enviando...';
+    }
+
+    // Cria depósito com status PENDENTE — aguarda validação do admin
+    const { error: depositoError } = await _supabase
+        .from('depositos')
+        .insert({
+            user_id: user.id,
+            jornada_id: objetivo.id,
+            valor: valorAtual,
+            tipo: 'pix',
+            status: 'pendente'
+        });
+
+    if (depositoError) {
+        console.error('Erro ao salvar depósito:', depositoError);
+        mostrarToast('Erro ao registrar depósito. Tente novamente.', 'error');
+        if (btnPago) {
+            btnPago.disabled = false;
+            btnPago.textContent = 'Já paguei';
+        }
+        return;
+    }
+
+    // Adiciona ao histórico local como pendente (sem atualizar valor acumulado)
+    if (!objetivo.depositos) objetivo.depositos = [];
+    objetivo.depositos.push({
         valor: valorAtual,
         data: new Date().toISOString(),
         tipo: 'pix',
-        status: 'confirmado'
-    };
-    
-    if (!objetivo.depositos) objetivo.depositos = [];
-    objetivo.depositos.push(deposito);
-    
-    // Atualiza valores
-    objetivo.valorAcumulado = (objetivo.valorAcumulado || 0) + valorAtual;
-    objetivo.porcentagem = (objetivo.valorAcumulado / objetivo.valorTotal) * 100;
-    
+        status: 'pendente'
+    });
     salvarLocal('objetivoAtivo', objetivo);
-    
-    mostrarToast('Depósito confirmado!', 'success');
-    
-    setTimeout(() => {
-        window.location.href = 'dashboard.html';
-    }, 1500);
+
+    fecharModalPix();
+    mostrarToast('Depósito enviado! Aguardando validação do administrador.', 'success', 5000);
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
 }
 
 window.fecharModalPix = fecharModalPix;
