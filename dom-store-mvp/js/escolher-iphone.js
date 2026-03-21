@@ -336,6 +336,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
         return;
     }
+
+    const _u = obterUsuarioLogado();
+    if (_u && _u.tipo === 'admin') {
+        window.location.href = 'admin.html';
+        return;
+    }
     
     renderizarIphones();
     

@@ -32,6 +32,10 @@ if (formLogin) {
         if (resultado.sucesso) {
             mostrarToast('Login realizado com sucesso!', 'success');
             setTimeout(() => {
+                if (resultado.usuario.tipo === 'admin') {
+                    window.location.href = 'admin.html';
+                    return;
+                }
                 const objetivoAtivo = obterLocal('objetivoAtivo');
                 if (objetivoAtivo && !objetivoAtivo.cancelado) {
                     window.location.href = 'dashboard.html';
@@ -56,11 +60,16 @@ window.togglePassword = togglePassword;
 
 // Redireciona se já autenticado
 if (obterLocal('autenticado')) {
-    const objetivoAtivo = obterLocal('objetivoAtivo');
-    if (objetivoAtivo && !objetivoAtivo.cancelado) {
-        window.location.href = 'dashboard.html';
+    const usuario = obterLocal('usuario');
+    if (usuario && usuario.tipo === 'admin') {
+        window.location.href = 'admin.html';
     } else {
-        window.location.href = 'escolher-iphone.html';
+        const objetivoAtivo = obterLocal('objetivoAtivo');
+        if (objetivoAtivo && !objetivoAtivo.cancelado) {
+            window.location.href = 'dashboard.html';
+        } else {
+            window.location.href = 'escolher-iphone.html';
+        }
     }
 }
 
