@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Produtos — DOM Store</title>
+    <link rel="icon" type="image/png" href="./assets/logo-dom-store-v1.png">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin-produtos.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <div class="admin-logo">DOM<span>Store</span></div>
+            <span class="admin-badge">Admin</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="dashboard-admin.html" class="nav-link">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="9" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="9" width="5" height="5" rx="1" fill="currentColor"/><rect x="9" y="9" width="5" height="5" rx="1" fill="currentColor"/></svg>
+                Dashboard
+            </a>
+            <a href="admin.html" class="nav-link">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 8h11M2 12h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Validar Depósitos
+            </a>
+            <a href="admin-produtos.html" class="nav-link ativo">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 3V2a2 2 0 0 1 5 0v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Produtos
+            </a>
+        </nav>
+        <div class="admin-header-right">
+            <span id="admin-nome">—</span>
+            <button class="btn-sair" onclick="sair()">Sair</button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+
+        <div class="page-header">
+            <div>
+                <h1 class="admin-title">Gerenciar Produtos</h1>
+                <p class="admin-subtitle">Adicione, edite ou remova iPhones do catálogo</p>
+            </div>
+            <button class="btn-novo-produto" onclick="abrirModalNovo()">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                Novo Produto
+            </button>
+        </div>
+
+        <!-- GRID DE PRODUTOS -->
+        <div id="produtos-grid" class="produtos-grid">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Carregando produtos...</p>
+            </div>
+        </div>
+
+        <!-- SEÇÃO: PRODUTOS HARDCODED OCULTOS -->
+        <div id="secao-ocultos" style="display:none; margin-top:40px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <h2 style="font-size:16px;font-weight:700;color:#444;margin:0;">Produtos locais ocultos</h2>
+                <span style="font-size:12px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:6px;font-weight:600;">Ocultos</span>
+            </div>
+            <p style="font-size:13px;color:#888;margin:0 0 16px;">Estes produtos do catálogo local estão ocultos para os clientes. Clique em Reexibir para torná-los visíveis novamente.</p>
+            <div id="ocultos-grid" class="produtos-grid"></div>
+        </div>
+
+        <!-- ESTADO VAZIO -->
+        <div id="estado-vazio" class="estado-vazio" style="display:none">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="4" y="10" width="40" height="30" rx="4" stroke="#ccc" stroke-width="2"/><path d="M16 10V8a8 8 0 0 1 16 0v2" stroke="#ccc" stroke-width="2" stroke-linecap="round"/><path d="M18 24h12M18 30h8" stroke="#ccc" stroke-width="2" stroke-linecap="round"/></svg>
+            <p>Nenhum produto cadastrado ainda</p>
+            <button class="btn-novo-produto" onclick="abrirModalNovo()">Adicionar primeiro produto</button>
+        </div>
+
+    </main>
+
+    <!-- MODAL: FORMULÁRIO DE PRODUTO -->
+    <div id="modal-produto" class="modal-overlay hidden">
+        <div class="modal-produto">
+            <div class="modal-header">
+                <h2 id="modal-titulo">Novo Produto</h2>
+                <button class="modal-fechar" onclick="fecharModal()">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+
+            <form id="form-produto" onsubmit="salvarProduto(event)">
+                <input type="hidden" id="produto-id">
+
+                <!-- UPLOAD DE FOTO -->
+                <div class="form-group">
+                    <label>Foto do Produto</label>
+                    <div class="upload-area" id="upload-area" onclick="document.getElementById('input-foto').click()">
+                        <img id="preview-foto" src="" alt="" style="display:none">
+                        <div id="upload-placeholder">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="2" y="6" width="28" height="20" rx="3" stroke="#aaa" stroke-width="1.5"/><circle cx="11" cy="14" r="3" stroke="#aaa" stroke-width="1.5"/><path d="M2 22l7-6 5 5 4-4 12 8" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <p>Clique para selecionar foto</p>
+                            <span>JPG, PNG ou WEBP — máx 5MB</span>
+                        </div>
+                        <div id="upload-progress" class="upload-progress hidden">
+                            <div class="progress-bar"><div id="progress-fill"></div></div>
+                            <span id="progress-text">Enviando...</span>
+                        </div>
+                    </div>
+                    <input type="file" id="input-foto" accept="image/*" style="display:none" onchange="previewFoto(event)">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="produto-nome">Nome *</label>
+                        <input type="text" id="produto-nome" placeholder="Ex: iPhone 16 Pro Max" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produto-modelo">Modelo</label>
+                        <input type="text" id="produto-modelo" placeholder="Ex: 16 Pro Max">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="produto-armazenamento">Armazenamento</label>
+                        <input type="text" id="produto-armazenamento" placeholder="Ex: 256GB">
+                    </div>
+                    <div class="form-group">
+                        <label for="produto-estado">Estado</label>
+                        <select id="produto-estado">
+                            <option value="Lacrado">Lacrado</option>
+                            <option value="Seminovo Premium">Seminovo Premium</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="produto-valor">Valor Total (R$) *</label>
+                        <input type="number" id="produto-valor" placeholder="Ex: 5299.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produto-badge">Badge</label>
+                        <select id="produto-badge">
+                            <option value="">Sem badge</option>
+                            <option value="NOVO">NOVO</option>
+                            <option value="LANÇAMENTO">LANÇAMENTO</option>
+                            <option value="DESTAQUE">DESTAQUE</option>
+                            <option value="PROMOÇÃO">PROMOÇÃO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-check">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="produto-destaque">
+                        <span>Marcar como destaque (aparece em primeiro)</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="produto-ativo" checked>
+                        <span>Produto ativo (visível no catálogo)</span>
+                    </label>
+                </div>
+
+                <div id="form-erro" class="form-erro hidden"></div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="btn-salvar" id="btn-salvar">
+                        <span id="btn-salvar-text">Salvar Produto</span>
+                        <span id="btn-salvar-load" style="display:none">Salvando...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CONFIRMAR EXCLUSÃO -->
+    <div id="modal-excluir" class="modal-overlay hidden">
+        <div class="modal-excluir">
+            <div class="excluir-icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 10v6M14 19v1" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/><path d="M11.5 4h5M3 24h22L14 5 3 24z" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Remover produto?</h3>
+            <p id="excluir-nome-produto"></p>
+            <p class="excluir-aviso">Esta ação não pode ser desfeita.</p>
+            <div class="modal-actions">
+                <button class="btn-cancelar" onclick="fecharModalExcluir()">Cancelar</button>
+                <button class="btn-excluir" id="btn-confirmar-excluir" onclick="confirmarExclusao()">Remover</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin-produtos.js"></script>
+</body>
+</html>

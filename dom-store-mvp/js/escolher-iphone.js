@@ -212,43 +212,243 @@ const iphones = [
     }
 ];
 
-// Renderizar iPhones no grid
-function renderizarIphones() {
+// =============================================
+// ADMIN — estado
+// =============================================
+let _modoAdmin = false;
+let _produtoOcultarPendente = null; // { id (int), nome }
+let _produtoExcluirDbPendente = null; // { id (uuid), nome }
+
+// =============================================
+// RENDERIZAR CARDS
+// =============================================
+
+function renderizarIphones(lista) {
     const grid = document.getElementById('iphones-grid');
     if (!grid) return;
-    
+
     grid.innerHTML = '';
-    
-    iphones.forEach(iphone => {
+
+    if (!lista || lista.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px;color:#aaa;">Nenhum produto disponível no momento.</div>';
+        return;
+    }
+
+    lista.forEach(iphone => {
         const card = document.createElement('div');
         card.className = `iphone-card ${iphone.destaque ? 'destaque' : ''}`;
-        card.onclick = () => selecionarIphone(iphone);
-        
+
         const badgeHtml = iphone.badge ? `<span class="badge-iphone badge-${iphone.badge.toLowerCase()}">${iphone.badge}</span>` : '';
-        
+        const imgSrc = iphone.imagem_url || iphone.imagem || 'assets/logo-dom-novo.png';
+        const valor = iphone.valorTotal || iphone.valor_total;
+
+        // Controles admin
+        let adminHtml = '';
+        if (_modoAdmin) {
+            if (iphone._tipo === 'db') {
+                adminHtml = `
+                    <div class="admin-card-controls">
+                        <button class="admin-card-btn admin-card-btn-excluir" onclick="event.stopPropagation();pedirExcluirDb('${iphone._dbId}','${iphone.nome.replace(/'/g,"\\'")}')">Excluir</button>
+                    </div>
+                    <span class="admin-card-tag">Banco</span>`;
+            } else {
+                adminHtml = `
+                    <div class="admin-card-controls">
+                        <button class="admin-card-btn admin-card-btn-ocultar" onclick="event.stopPropagation();pedirOcultar(${iphone.id},'${iphone.nome.replace(/'/g,"\\'")}')">Ocultar</button>
+                    </div>`;
+            }
+        }
+
         card.innerHTML = `
+            ${adminHtml}
             ${badgeHtml}
             <div class="iphone-imagem">
-                <img 
-                    src="${iphone.imagem}" 
-                    alt="${iphone.nome}" 
+                <img
+                    src="${imgSrc}"
+                    alt="${iphone.nome}"
                     loading="lazy"
-                    onerror="console.error('Erro ao carregar:', '${iphone.imagem}'); this.onerror=null; this.src='assets/logo-dom-novo.png'; this.style.padding='20px';"
-                    onload="console.log('✅ Imagem carregada:', '${iphone.imagem}')">
+                    onerror="this.onerror=null; this.src='assets/logo-dom-novo.png'; this.style.padding='20px';">
             </div>
             <div class="iphone-info">
                 <h3 class="iphone-nome">${iphone.nome}</h3>
                 <p class="iphone-specs">${iphone.armazenamento} • ${iphone.estado}</p>
-                <p class="iphone-valor">${formatarMoeda(iphone.valorTotal)}</p>
+                <p class="iphone-valor">${formatarMoeda(valor)}</p>
                 <button class="btn btn-primary btn-full">
-                    Escolher este iPhone
+                    ${_modoAdmin ? 'Visualizar' : 'Escolher este iPhone'}
                 </button>
             </div>
         `;
-        
+
+        // Admin não abre modal de compra
+        if (!_modoAdmin) {
+            card.onclick = () => selecionarIphone(iphone);
+        }
+
         grid.appendChild(card);
     });
 }
+
+// =============================================
+// NORMALIZAR PRODUTO DO BANCO
+// =============================================
+
+function normalizarProduto(p) {
+    return {
+        id: p.id,
+        _tipo: 'db',
+        _dbId: p.id,
+        nome: p.nome,
+        modelo: p.modelo || '',
+        armazenamento: p.armazenamento || '',
+        estado: p.estado || 'Lacrado',
+        valorTotal: p.valor_total,
+        imagem: p.imagem_url || 'assets/logo-dom-novo.png',
+        imagem_url: p.imagem_url,
+        destaque: p.destaque || false,
+        badge: p.badge || null
+    };
+}
+
+// =============================================
+// CARREGAR CATÁLOGO
+// =============================================
+
+async function carregarCatalogo() {
+    const grid = document.getElementById('iphones-grid');
+    if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">Carregando catálogo...</div>';
+
+    try {
+        // Buscar IDs de hardcoded ocultos
+        const { data: ocultos } = await _supabase
+            .from('hardcode_ocultos')
+            .select('produto_id');
+
+        const ocultoIds = new Set((ocultos || []).map(o => o.produto_id));
+
+        // Buscar produtos do banco
+        const { data: dbProdutos, error } = await _supabase
+            .from('produtos')
+            .select('*')
+            .eq('ativo', true)
+            .order('destaque', { ascending: false })
+            .order('created_at', { ascending: false });
+
+        // Montar lista final
+        let lista = [];
+
+        // Produtos do banco (sempre exibidos se ativo)
+        if (!error && dbProdutos && dbProdutos.length > 0) {
+            lista = dbProdutos.map(p => ({ ...normalizarProduto(p) }));
+        }
+
+        // Hardcoded: filtrar ocultos
+        const hardcodedVisiveis = iphones
+            .filter(ip => !ocultoIds.has(ip.id))
+            .map(ip => ({ ...ip, _tipo: 'hardcode' }));
+
+        lista = [...lista, ...hardcodedVisiveis];
+
+        // Destaque primeiro
+        lista.sort((a, b) => (b.destaque ? 1 : 0) - (a.destaque ? 1 : 0));
+
+        console.log(`✅ Catálogo: ${lista.length} produtos (${dbProdutos?.length || 0} banco + ${hardcodedVisiveis.length} local)`);
+        renderizarIphones(lista);
+
+    } catch (e) {
+        console.warn('Erro ao carregar catálogo:', e);
+        renderizarIphones(iphones.map(ip => ({ ...ip, _tipo: 'hardcode' })));
+    }
+}
+
+// =============================================
+// ADMIN — OCULTAR HARDCODED
+// =============================================
+
+function pedirOcultar(id, nome) {
+    _produtoOcultarPendente = { id, nome };
+    document.getElementById('ocultar-nome').textContent = nome;
+    document.getElementById('modal-ocultar').classList.remove('hidden');
+}
+
+function fecharModalOcultar() {
+    document.getElementById('modal-ocultar').classList.add('hidden');
+    _produtoOcultarPendente = null;
+}
+
+async function confirmarOcultar() {
+    if (!_produtoOcultarPendente) return;
+    const btn = document.getElementById('btn-confirmar-ocultar');
+    btn.disabled = true;
+    btn.textContent = 'Ocultando...';
+
+    const { error } = await _supabase
+        .from('hardcode_ocultos')
+        .insert({ produto_id: _produtoOcultarPendente.id });
+
+    btn.disabled = false;
+    btn.textContent = 'Ocultar';
+
+    if (error) {
+        mostrarToast('Erro ao ocultar produto.', 'error');
+        return;
+    }
+
+    fecharModalOcultar();
+    mostrarToast('Produto ocultado para todos os clientes.', 'success');
+    carregarCatalogo();
+}
+
+// =============================================
+// ADMIN — EXCLUIR DO BANCO
+// =============================================
+
+function pedirExcluirDb(id, nome) {
+    _produtoExcluirDbPendente = { id, nome };
+    document.getElementById('excluir-db-nome').textContent = nome;
+    document.getElementById('modal-excluir-db').classList.remove('hidden');
+}
+
+function fecharModalExcluirDb() {
+    document.getElementById('modal-excluir-db').classList.add('hidden');
+    _produtoExcluirDbPendente = null;
+}
+
+async function confirmarExcluirDb() {
+    if (!_produtoExcluirDbPendente) return;
+    const btn = document.getElementById('btn-confirmar-excluir-db');
+    btn.disabled = true;
+    btn.textContent = 'Excluindo...';
+
+    const { error } = await _supabase
+        .from('produtos')
+        .delete()
+        .eq('id', _produtoExcluirDbPendente.id);
+
+    btn.disabled = false;
+    btn.textContent = 'Excluir';
+
+    if (error) {
+        mostrarToast('Erro ao excluir produto.', 'error');
+        return;
+    }
+
+    fecharModalExcluirDb();
+    mostrarToast('Produto excluído permanentemente.', 'success');
+    carregarCatalogo();
+}
+
+// Fechar modais clicando fora
+document.addEventListener('click', (e) => {
+    if (e.target.id === 'modal-ocultar') fecharModalOcultar();
+    if (e.target.id === 'modal-excluir-db') fecharModalExcluirDb();
+});
+
+window.pedirOcultar = pedirOcultar;
+window.fecharModalOcultar = fecharModalOcultar;
+window.confirmarOcultar = confirmarOcultar;
+window.pedirExcluirDb = pedirExcluirDb;
+window.fecharModalExcluirDb = fecharModalExcluirDb;
+window.confirmarExcluirDb = confirmarExcluirDb;
 
 // Selecionar iPhone
 let _iphoneSelecionado = null;
@@ -336,15 +536,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const _u = obterUsuarioLogado();
-    if (_u && _u.tipo === 'admin') {
-        window.location.href = 'dashboard-admin.html';
-        return;
-    }
-    
-    renderizarIphones();
-    
     const usuario = obterUsuarioLogado();
+
+    // Admin: ativa modo admin (NÃO redireciona mais)
+    if (usuario && usuario.tipo === 'admin') {
+        _modoAdmin = true;
+        const adminBar = document.getElementById('admin-bar');
+        if (adminBar) adminBar.style.display = 'block';
+    }
+
+    carregarCatalogo();
+
     const userNameEl = document.getElementById('user-name');
     if (userNameEl && usuario) {
         userNameEl.textContent = usuario.nome.split(' ')[0];

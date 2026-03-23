@@ -1,0 +1,226 @@
+/* =============================================
+   ADMIN - CONTROLES NO CATÁLOGO
+   ============================================= */
+
+/* Barra admin no topo */
+.admin-catalogo-bar {
+    background: #111;
+    color: #fff;
+    font-size: 13px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+.admin-catalogo-bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.admin-catalogo-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #ccc;
+}
+
+.admin-catalogo-bar-left strong {
+    color: #fff;
+}
+
+.admin-catalogo-bar-right {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-bar-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    transition: background 0.15s;
+}
+
+.admin-bar-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.admin-bar-btn-primary {
+    background: #FEDB19;
+    color: #111;
+    border-color: #FEDB19;
+}
+
+.admin-bar-btn-primary:hover {
+    background: #f0ce00;
+}
+
+/* Controles sobre o card */
+.iphone-card {
+    position: relative;
+}
+
+.admin-card-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.iphone-card:hover .admin-card-controls {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.admin-card-btn {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    white-space: nowrap;
+}
+
+.admin-card-btn-ocultar {
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    backdrop-filter: blur(4px);
+}
+
+.admin-card-btn-ocultar:hover {
+    background: rgba(0,0,0,0.92);
+}
+
+.admin-card-btn-excluir {
+    background: #ef4444;
+    color: #fff;
+}
+
+.admin-card-btn-excluir:hover {
+    background: #dc2626;
+}
+
+/* Tag "Banco de Dados" no canto do card */
+.admin-card-tag {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Modal ocultar / excluir */
+.modal-ocultar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.modal-ocultar-overlay.hidden {
+    display: none;
+}
+
+.modal-ocultar {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+}
+
+.modal-ocultar h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #111;
+}
+
+.modal-ocultar p {
+    font-size: 14px;
+    color: #555;
+    margin: 0 0 6px;
+    font-weight: 500;
+}
+
+.ocultar-aviso {
+    font-size: 12px !important;
+    color: #888 !important;
+    font-weight: 400 !important;
+    margin-bottom: 20px !important;
+}
+
+.ocultar-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.ocultar-actions button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ocultar-actions button:first-child {
+    background: #f0f0f0;
+    color: #555;
+}
+
+.ocultar-actions button:first-child:hover {
+    background: #e4e4e4;
+}
+
+.btn-confirmar-ocultar {
+    background: #111;
+    color: #fff;
+    flex: 2 !important;
+}
+
+.btn-confirmar-ocultar:hover {
+    background: #333 !important;
+}
+
+.btn-confirmar-ocultar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+}
